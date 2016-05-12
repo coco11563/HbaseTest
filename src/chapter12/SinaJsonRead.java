@@ -2,6 +2,9 @@ package chapter12;
 
 import java.util.Iterator;
 import java.util.LinkedHashMap;
+
+import org.apache.hadoop.hbase.KeyValue;
+
 import json.JSONException;
 import json.JSONObject;
 
@@ -28,4 +31,6 @@ public static LinkedHashMap<String, String> getJsonData(JSONObject json) throws 
 	}
 	return mapper;
 }
+
+
 }

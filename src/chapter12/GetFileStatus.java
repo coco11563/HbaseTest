@@ -7,7 +7,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -22,7 +24,15 @@ import jcifs.smb.*;
 public class GetFileStatus{
 private final static String tmpfilepath = "D:\\库\\文档\\eclipse workspace\\HbaseTest\\tmp";
 	private final static String cityNumPath="D:\\库\\文档\\eclipse workspace\\HbaseTest\\conf\\cityNum.json";
-public static void main(String[] args) throws Exception
+	/*public static Date dateplus(Date d)
+	{
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(d);
+		cal.add(Calendar.DATE, 2);
+		 SimpleDateFormat df = new SimpleDateFormat("yyyy-mm-dd");
+		return cal.getTime();
+	}*/
+	public static void main(String[] args) throws Exception
 {
 	/*read json test*/
 	
@@ -33,7 +43,16 @@ public static void main(String[] args) throws Exception
 	
 	SmbFile fs = new SmbFile("smb://biggrab:123456@192.168.1.111/biggrab/export/2016-03-06/");
 	List<String> list = showAllFiles(fs);
-	
+	File fs1 = Save_smb(list.get(1),tmpfilepath);
+	System.out.println((fs1.getName()).split("\\.")[0]);
+	JSONObject timesetting = new JSONObject(Read.readJson("D:\\库\\文档\\eclipse workspace\\HbaseTest\\conf\\timeSetting.json"));
+	//获取本次起止时间
+	 SimpleDateFormat df = new SimpleDateFormat("yyyy-mm-dd");
+	Date start = df.parse("2016-03-07");
+	Date end =  df.parse("2016-03-09");
+//	end = dateplus(end);
+	int days = (int)((end.getTime() - start.getTime())/86400000) + 1;
+	System.out.println(days);
 	JSONArray cityNumObject = Read.read_jsonFile(Save_smb(list.get(2),tmpfilepath),"utf-8");
 	
 	LinkedHashMap<String,String> array = SinaJsonRead.getJsonData(cityNumObject.getJSONObject(1));
@@ -57,7 +76,7 @@ public static boolean removeFile(File file) {
  * 下载文件到临时文件夹
  * @param smbfile
  * @param tmpfilepath
- * @return
+ * @return 下载后的文件地址
  */
 public static File Save_smb(String smbfile,String tmpfilepath)
 {
