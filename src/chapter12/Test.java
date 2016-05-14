@@ -106,7 +106,7 @@ public class Test {
 			throws Exception {
 		Put p1 = new Put(Bytes.toBytes(row));
 		Set<String> keyset = array.keySet();
-		for(Iterator<String> it = keyset.iterator() ; it.hasNext() ;)
+		for(Iterator<String> it = keyset.iterator() ; it.hasNext() ;)//使用了一个很棒的办法遍历了map
 		{
 			String key = it.next();
 		if(array.get(key) != null)
@@ -214,42 +214,6 @@ public class Test {
 				String rowname = dateplus(start,iter) + "_" + UserID + "_" + WeiboID;	
 				Put p1 = new Put(Bytes.toBytes(rowname));
 				//插入流写入
-//				p1.add(Bytes.toBytes(columnFamily), Bytes.toBytes("idstr"), Bytes.toBytes(array.get("idstr")));
-//				p1.add(Bytes.toBytes(columnFamily), Bytes.toBytes("isLongText"), Bytes.toBytes(array.get("isLongText")));
-//				p1.add(Bytes.toBytes(columnFamily), Bytes.toBytes("hot_weibo_tags"), Bytes.toBytes(array.get("hot_weibo_tags")));
-//				p1.add(Bytes.toBytes(columnFamily), Bytes.toBytes("text_tag_tips"), Bytes.toBytes(array.get("text_tag_tips")));
-//				p1.add(Bytes.toBytes(columnFamily), Bytes.toBytes("distance"), Bytes.toBytes(array.get("distance")));
-//				p1.add(Bytes.toBytes(columnFamily), Bytes.toBytes("in_reply_to_status_id"), Bytes.toBytes(array.get("in_reply_to_status_id")));
-//				p1.add(Bytes.toBytes(columnFamily), Bytes.toBytes("pic_ids"), Bytes.toBytes(array.get("pic_ids")));
-//				p1.add(Bytes.toBytes(columnFamily), Bytes.toBytes("created_at"), Bytes.toBytes(array.get("created_at")));
-//				p1.add(Bytes.toBytes(columnFamily), Bytes.toBytes("mid"), Bytes.toBytes(array.get("idstr")));
-//				p1.add(Bytes.toBytes(columnFamily), Bytes.toBytes("annotations"), Bytes.toBytes(array.get("annotations")));
-//				p1.add(Bytes.toBytes(columnFamily), Bytes.toBytes("source"), Bytes.toBytes(array.get("source")));
-//				p1.add(Bytes.toBytes(columnFamily), Bytes.toBytes("attitudes_count"), Bytes.toBytes(array.get("attitudes_count")));
-//				p1.add(Bytes.toBytes(columnFamily), Bytes.toBytes("rid"), Bytes.toBytes(array.get("rid")));
-//				p1.add(Bytes.toBytes(columnFamily), Bytes.toBytes("bmiddle_pic"), Bytes.toBytes(array.get("bmiddle_pic")));
-//				p1.add(Bytes.toBytes(columnFamily), Bytes.toBytes("geo"), Bytes.toBytes(array.get("geo")));
-//				p1.add(Bytes.toBytes(columnFamily), Bytes.toBytes("darwin_tags"), Bytes.toBytes(array.get("darwin_tags")));
-//				p1.add(Bytes.toBytes(columnFamily), Bytes.toBytes("in_reply_to_screen_name"), Bytes.toBytes(array.get("in_reply_to_screen_name")));
-//				p1.add(Bytes.toBytes(columnFamily), Bytes.toBytes("mlevel"), Bytes.toBytes(array.get("mlevel")));
-//				p1.add(Bytes.toBytes(columnFamily), Bytes.toBytes("in_reply_to_user_id"), Bytes.toBytes(array.get("in_reply_to_user_id")));
-//				p1.add(Bytes.toBytes(columnFamily), Bytes.toBytes("id"), Bytes.toBytes(array.get("id")));
-//				p1.add(Bytes.toBytes(columnFamily), Bytes.toBytes("text"), Bytes.toBytes(array.get("text")));
-//				p1.add(Bytes.toBytes(columnFamily), Bytes.toBytes("reposts_count"), Bytes.toBytes(array.get("reposts_count")));
-//				p1.add(Bytes.toBytes(columnFamily), Bytes.toBytes("favorited"), Bytes.toBytes(array.get("favorited")));
-//				p1.add(Bytes.toBytes(columnFamily), Bytes.toBytes("visible"), Bytes.toBytes(array.get("visible")));
-//				p1.add(Bytes.toBytes(columnFamily), Bytes.toBytes("thumbnail_pic"), Bytes.toBytes(array.get("thumbnail_pic")));
-//				p1.add(Bytes.toBytes(columnFamily), Bytes.toBytes("original_pic"), Bytes.toBytes(array.get("original_pic")));
-//				p1.add(Bytes.toBytes(columnFamily), Bytes.toBytes("textLength"), Bytes.toBytes(array.get("textLength")));
-//				p1.add(Bytes.toBytes(columnFamily), Bytes.toBytes("truncated"), Bytes.toBytes(array.get("truncated")));
-//				p1.add(Bytes.toBytes(columnFamily), Bytes.toBytes("source_type"), Bytes.toBytes(array.get("source_type")));
-//				p1.add(Bytes.toBytes(columnFamily), Bytes.toBytes("biz_feature"), Bytes.toBytes(array.get("biz_feature")));
-//				p1.add(Bytes.toBytes(columnFamily), Bytes.toBytes("source_allowclick"), Bytes.toBytes(array.get("source_allowclick")));
-//				p1.add(Bytes.toBytes(columnFamily), Bytes.toBytes("comments_count"), Bytes.toBytes(array.get("comments_count")));
-//				p1.add(Bytes.toBytes(columnFamily), Bytes.toBytes("url_objects"), Bytes.toBytes(array.get("url_objects")));
-//				p1.add(Bytes.toBytes(columnFamily), Bytes.toBytes("userType"), Bytes.toBytes(array.get("userType")));
-//				p1.add(Bytes.toBytes(columnFamily), Bytes.toBytes("user"), Bytes.toBytes(array.get("user")));
-//				p1.add(Bytes.toBytes(columnFamily), Bytes.toBytes("biz_ids"), Bytes.toBytes(array.get("biz_ids")));
 				p1 = Test.put(tablename, rowname, columnFamily, array);
 				putDateList.add(p1);
 				if (putDateList.size() > 1000){
@@ -270,13 +234,11 @@ public class Test {
 				e.printStackTrace();
 			
 			}
-		
-	
 		}
 		//完成一天的写入
 		String times = Integer.toString(iter);
 		long end_oneday_time = new Date().getTime();
-		long use_time = (end_oneday_time - start_oneday_time)/(1000*60*60);
+		long use_time = (end_oneday_time - start_oneday_time)/(1000*60);//分钟存储运行时间
 		try {
 			dateInsert((times+"_"+use_time), dateplus(start,iter));
 		} catch (Exception e) {
