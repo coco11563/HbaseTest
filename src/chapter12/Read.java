@@ -162,7 +162,7 @@ public class Read {
 	            }
 	        }
 			removeFile(file);
-			System.out.println(data.toString().length());
+			System.out.println(data.length());
 			
 	        return data.toString();
 	    }
@@ -209,7 +209,7 @@ public class Read {
 	            }
 	        }
 			removeFile(file);
-			System.out.println(json_array.toString().length());
+			System.out.println(json_array.length());
 			return json_array ;
 			}
 		/**

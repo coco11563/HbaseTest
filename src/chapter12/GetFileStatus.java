@@ -9,14 +9,9 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
-
 import json.JSONArray;
 import json.JSONObject;
 import jcifs.smb.*;
@@ -55,7 +50,7 @@ private final static String tmpfilepath = "D:\\库\\文档\\eclipse workspace\\Hbas
 	System.out.println(days);
 	JSONArray cityNumObject = Read.read_jsonFile(Save_smb(list.get(2),tmpfilepath),"utf-8");
 	
-	LinkedHashMap<String,String> array = SinaJsonRead.getJsonData(cityNumObject.getJSONObject(1));
+	HashMap<String,String> array = SinaJsonRead.getJsonData(cityNumObject.getJSONObject(1));
 
 	
 		System.out.println("thumbnail_pic"+":"+array.get("thumbnail_pic"));
@@ -87,12 +82,11 @@ public static File Save_smb(String smbfile,String tmpfilepath)
            SmbFile rmifile = new SmbFile(smbfile);     
            String filename=rmifile.getName();     
            bis=new BufferedInputStream(new SmbFileInputStream(rmifile));     
-           localfile=new File(tmpfilepath+File.separator+filename);    
-           System.out.println("localfile=="+localfile);  
+           localfile=new File(tmpfilepath+File.separator+filename);     
            bos=new BufferedOutputStream(new FileOutputStream(localfile));     
-           int length=rmifile.getContentLength();    
-           System.out.println("length=="+length);  
-           byte[] buffer=new byte[length];     
+           double length=rmifile.getContentLength();    
+           System.out.println("缓存文件大小=="+length/(1024*1024)+"//MB");  
+           byte[] buffer=new byte[(int)length];     
            Date date=new Date();     
            bis.read(buffer);    
            bos.write(buffer);   

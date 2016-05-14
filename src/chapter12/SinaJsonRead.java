@@ -1,10 +1,7 @@
 package chapter12;
 
+import java.util.HashMap;
 import java.util.Iterator;
-import java.util.LinkedHashMap;
-
-import org.apache.hadoop.hbase.KeyValue;
-
 import json.JSONException;
 import json.JSONObject;
 
@@ -15,12 +12,12 @@ public class SinaJsonRead {
 	 * @return json mapper
 	 * @throws JSONException
 	 */
-public static LinkedHashMap<String, String> getJsonData(JSONObject json) throws JSONException
+public static HashMap<String, String> getJsonData(JSONObject json) throws JSONException
 {
 	
 	@SuppressWarnings("rawtypes")
 	Iterator iterator = json.keys();
-	LinkedHashMap<String,String> mapper = new LinkedHashMap<String, String>();
+	HashMap<String,String> mapper = new HashMap<String, String>();
 	while(iterator.hasNext()){
 	
     	String key = (String) iterator.next();
