@@ -8,11 +8,14 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+import org.apache.log4j.Logger;
+
 import json.JSONArray;
 import json.JSONException;
 import json.JSONObject;
 
 public class Read {
+	private static Logger logger = Logger.getLogger(Test.class);  
 
 		/**
 		 * 读取我们的json数据
@@ -162,7 +165,7 @@ public class Read {
 	            }
 	        }
 			removeFile(file);
-			System.out.println(data.length());
+			logger.info(data.length());
 			
 	        return data.toString();
 	    }
@@ -209,7 +212,7 @@ public class Read {
 	            }
 	        }
 			removeFile(file);
-			System.out.println(json_array.length());
+logger.info(json_array.length());
 			return json_array ;
 			}
 		/**

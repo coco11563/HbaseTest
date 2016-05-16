@@ -26,6 +26,7 @@ import org.apache.hadoop.hbase.client.Result;
 import org.apache.hadoop.hbase.client.ResultScanner;
 import org.apache.hadoop.hbase.client.Scan;
 import org.apache.hadoop.hbase.util.Bytes;
+import org.apache.log4j.Logger;
 
 import json.JSONArray;
 import json.JSONException;
@@ -41,10 +42,15 @@ public class Test {
 	// 获取HBaseConfiguration
 	static Configuration cfg = HBaseConfiguration.create();
 	private static final String columnFamily = "sinadata";
+	
+	//log4j initial
+	
+	private static Logger logger = Logger.getLogger(Test.class);  
+	
 	// HBaseAdmin HTableDescriptor
 	@SuppressWarnings("deprecation")
 	public static void create(String tableName)throws IOException {
-		System.out.println("正在创建"+tableName);
+		logger.info("正在创建"+tableName);
 		HBaseAdmin admin = new HBaseAdmin(cfg);
 		if (!admin.tableExists(tableName)) {
 			HTableDescriptor tableDesc = new HTableDescriptor(tableName);
@@ -57,16 +63,16 @@ public class Test {
 	        @SuppressWarnings({ "resource", "deprecation" })
 			HBaseAdmin admin = new HBaseAdmin(cfg);
 	        if (admin.tableExists(Bytes.toBytes(tablename))) {
-	            System.out.println("table Exists!");
+	        	logger.error("table Exists!");
 	        }
 	        else{
-	        	System.out.println("create table . . .");
+	        	logger.info("create table . . .");
 	            @SuppressWarnings("deprecation")
 				HTableDescriptor tableDesc = new HTableDescriptor(tablename);
 	            tableDesc.addFamily(new HColumnDescriptor(columnFamily));
 	            admin.createTable(tableDesc);
 	            if (admin.tableExists(Bytes.toBytes(tablename))) {
-	            	System.out.println("create table success!");
+	            	logger.info("create table success!");
 		        }
 	            
 	        }
@@ -90,7 +96,7 @@ public class Test {
 		Put p1 = new Put(Bytes.toBytes(row));
 		p1.add(Bytes.toBytes(columnFamily), Bytes.toBytes(column), Bytes.toBytes(data));
 		table.put(p1);
-		System.out.println("put '" + row + "','" + columnFamily + ":" + column + "','" + data + "'");
+		logger.info("put '" + row + "','" + columnFamily + ":" + column + "','" + data + "'");
 	}
 	/**
 	 * 
@@ -115,7 +121,7 @@ public class Test {
 		}
 		else
 		{
-		System.out.println("好險，避免了一次空指針");	
+			logger.info("好險，避免了一次空指針");	
 		}
 		}
 		
@@ -128,7 +134,7 @@ public class Test {
 		HTable table = new HTable(cfg, tablename);
 		Get g = new Get(Bytes.toBytes(row));
 		Result result = table.get(g);
-		System.out.println("Get: " + result);
+		logger.info("Get: " + result);
 	}
 
 
@@ -138,7 +144,7 @@ public class Test {
 		Scan s = new Scan();
 		ResultScanner rs = table.getScanner(s);
 		for (Result r : rs) {
-			System.out.println("Scan: " + r);
+			logger.info("Scan: " + r);
 		}
 	}
 
@@ -188,7 +194,7 @@ public class Test {
 		Date start = df.parse(timesetting.getString("start-time"));
 		Date end =  df.parse(timesetting.getString("end-time"));
 		int days = (int)((end.getTime() - start.getTime())/86400000) + 1;
-		System.out.println("开始进行" + days+ "天的数据写入. . . ");
+		logger.info("开始进行" + days+ "天的数据写入. . . ");
 		// 开始进行hbase读写
 		for(int iter = 0 ; iter < days ; iter ++)
 		{
@@ -199,8 +205,8 @@ public class Test {
 		for (int i = 0; i < filestatus.size(); i++) {
 			File f = GetFileStatus.Save_smb(filestatus.get(i), tmpfilepath);
 			String tablename = "city_"+(cityNumObject.getString(((f.getName()).split("\\."))[0]));
-			System.out.print("城市名:"+((f.getName()).split("\\."))[0]);
-			System.out.println("表名:"+cityNumObject.getString(((f.getName()).split("\\."))[0]));				
+			logger.info("城市名:"+((f.getName()).split("\\."))[0]);
+			logger.info("表名:"+cityNumObject.getString(((f.getName()).split("\\."))[0]));				
 			try {
 				Test.create(tablename,columnFamily);
 				HTable cityTable = new HTable(cfg,tablename);
@@ -220,13 +226,13 @@ public class Test {
 					cityTable.put(putDateList);
 					cityTable.flushCommits();
 					putDateList.clear();
-					System.out.println("进行一次写入");
+					logger.info("进行一次写入");
 					}	
 				}
 				cityTable.put(putDateList);
 				cityTable.flushCommits();
 				putDateList.clear();
-				System.out.println("结尾处进行一次写入");
+				logger.info("结尾处进行一次写入");
 				cityTable.close();
 			}
 
@@ -262,7 +268,7 @@ public class Test {
         bufferWritter.write(cd.toString());
         bufferWritter.close();
 
-    System.out.println("Done One day");
+        logger.info("Done One day");
 	}
 	private static String getUserID(String JsonString) throws JSONException {
 		// TODO Auto-generated method stub

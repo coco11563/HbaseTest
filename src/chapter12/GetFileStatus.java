@@ -12,11 +12,15 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+
+import org.apache.log4j.Logger;
+
 import json.JSONArray;
 import json.JSONObject;
 import jcifs.smb.*;
   
 public class GetFileStatus{
+	private static Logger logger = Logger.getLogger(Test.class);  
 private final static String tmpfilepath = "D:\\库\\文档\\eclipse workspace\\HbaseTest\\tmp";
 	private final static String cityNumPath="D:\\库\\文档\\eclipse workspace\\HbaseTest\\conf\\cityNum.json";
 	/*public static Date dateplus(Date d)
@@ -39,7 +43,7 @@ private final static String tmpfilepath = "D:\\库\\文档\\eclipse workspace\\Hbas
 	SmbFile fs = new SmbFile("smb://biggrab:123456@192.168.1.111/biggrab/export/2016-03-06/");
 	List<String> list = showAllFiles(fs);
 	File fs1 = Save_smb(list.get(1),tmpfilepath);
-	System.out.println((fs1.getName()).split("\\.")[0]);
+	logger.info((fs1.getName()).split("\\.")[0]);
 	JSONObject timesetting = new JSONObject(Read.readJson("D:\\库\\文档\\eclipse workspace\\HbaseTest\\conf\\timeSetting.json"));
 	//获取本次起止时间
 	 SimpleDateFormat df = new SimpleDateFormat("yyyy-mm-dd");
@@ -47,13 +51,13 @@ private final static String tmpfilepath = "D:\\库\\文档\\eclipse workspace\\Hbas
 	Date end =  df.parse("2016-03-09");
 //	end = dateplus(end);
 	int days = (int)((end.getTime() - start.getTime())/86400000) + 1;
-	System.out.println(days);
+	logger.info(days);
 	JSONArray cityNumObject = Read.read_jsonFile(Save_smb(list.get(2),tmpfilepath),"utf-8");
 	
 	HashMap<String,String> array = SinaJsonRead.getJsonData(cityNumObject.getJSONObject(1));
 
 	
-		System.out.println("thumbnail_pic"+":"+array.get("thumbnail_pic"));
+	logger.info("thumbnail_pic"+":"+array.get("thumbnail_pic"));
 	
 	
 	}
@@ -85,7 +89,7 @@ public static File Save_smb(String smbfile,String tmpfilepath)
            localfile=new File(tmpfilepath+File.separator+filename);     
            bos=new BufferedOutputStream(new FileOutputStream(localfile));     
            double length=rmifile.getContentLength();    
-           System.out.println("缓存文件大小=="+length/(1024*1024)+"//MB");  
+           logger.info("缓存文件大小="+length/(1024*1024)+"//MB");  
            byte[] buffer=new byte[(int)length];     
            Date date=new Date();     
            bis.read(buffer);    
@@ -93,9 +97,9 @@ public static File Save_smb(String smbfile,String tmpfilepath)
            Date end=new Date();     
            int time= (int) ((end.getTime()-date.getTime())/1000);     
            if(time>0)     
-               System.out.println("用时:"+time+"秒 "+"速度:"+length/time/1024+"kb/秒");                 
+        	   logger.info("用时:"+time+"秒 "+"速度:"+length/time/1024+"kb/秒");                 
        } catch (Exception e){      
-           System.out.println(e.getMessage());     
+    	   logger.error(e.getMessage());     
                 
        }finally{     
            try {     
@@ -112,6 +116,7 @@ public static File Save_smb(String smbfile,String tmpfilepath)
  * @param local path File
  * @return local path list
  * @throws Exception
+ * @author coco1
  */
 final static List<String> showAllFiles(File dir) throws Exception{
 	List<String> returnDir = new ArrayList<String>();
@@ -121,7 +126,9 @@ final static List<String> showAllFiles(File dir) throws Exception{
 	   if(fs[i].isDirectory()){
 	    try{
 	    	returnDir.addAll(showAllFiles(fs[i]));
-	    }catch(Exception e){}
+	    }catch(Exception e){
+	    	logger.error(e.getMessage());     
+	    }
 	   }
 	   else
 	   {
@@ -135,6 +142,7 @@ final static List<String> showAllFiles(File dir) throws Exception{
  * @param SmbFile fs2
  * @return List of remote file system
  * @throws SmbException
+ * @author coco1
  */
 final static List<String> showAllFiles(SmbFile fs2) throws SmbException
 {
@@ -146,7 +154,9 @@ final static List<String> showAllFiles(SmbFile fs2) throws SmbException
 	    try{
 	    
 	    	returnDir.addAll(showAllFiles(fs[i]));
-	    }catch(Exception e){}
+	    }catch(Exception e){
+	    	logger.error(e.getMessage());     
+	    }
 	   }
 	   else
 	   {
