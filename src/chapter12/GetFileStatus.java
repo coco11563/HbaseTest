@@ -21,8 +21,8 @@ import jcifs.smb.*;
   
 public class GetFileStatus{
 	private static Logger logger = Logger.getLogger(Test.class);  
-private final static String tmpfilepath = "D:\\¿â\\ÎÄµµ\\eclipse workspace\\HbaseTest\\tmp";
-	private final static String cityNumPath="D:\\¿â\\ÎÄµµ\\eclipse workspace\\HbaseTest\\conf\\cityNum.json";
+	private final static String tmpfilepath = "./tmp";
+	private final static String cityNumPath="./conf/cityNum.json";
 	/*public static Date dateplus(Date d)
 	{
 		Calendar cal = Calendar.getInstance();

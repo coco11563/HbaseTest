@@ -35,12 +35,14 @@ import jcifs.smb.*;
 
 public class Test {
 	//static变量初始化
-	private final static String tmpfilepath = "D:\\库\\文档\\eclipse workspace\\HbaseTest\\tmp";
-	private final static String cityNumPath = "D:\\库\\文档\\eclipse workspace\\HbaseTest\\conf\\cityNum.json";
-	private final static String timesetpath = "D:\\库\\文档\\eclipse workspace\\HbaseTest\\conf\\timeSetting.json";
-	private final static String completeddate = "D:\\库\\文档\\eclipse workspace\\HbaseTest\\conf\\CompletedDate.json";
+	private final static String tmpfilepath = "./tmp";
+	private final static String cityNumPath = "./conf/cityNum.json";
+	private final static String timesetpath = "./conf/timeSetting.json";
+	private final static String completeddate = "./conf/CompletedDate.json";
+	
 	// 获取HBaseConfiguration
 	static Configuration cfg = HBaseConfiguration.create();
+	
 	private static final String columnFamily = "sinadata";
 	
 	//log4j initial
@@ -62,6 +64,7 @@ public class Test {
 	  public static void create(String tablename,String columnFamily) throws Exception {
 	        @SuppressWarnings({ "resource", "deprecation" })
 			HBaseAdmin admin = new HBaseAdmin(cfg);
+	        System.out.print(cfg);
 	        if (admin.tableExists(Bytes.toBytes(tablename))) {
 	        	logger.error("table Exists!");
 	        }
@@ -183,7 +186,7 @@ public class Test {
 	@SuppressWarnings("deprecation")
 	public static void main(String[] agrs) throws JSONException, ParseException, IOException
 	{
-	
+		System.setProperty("hadoop.home.dir", "C:\\Program Files\\hadoop-2.6.3");
 		
 		// 获取城市的ID JSON文件
 		JSONObject cityNumObject = new JSONObject(Read.readJson(cityNumPath));
@@ -210,6 +213,7 @@ public class Test {
 			try {
 				Test.create(tablename,columnFamily);
 				HTable cityTable = new HTable(cfg,tablename);
+				
 				JSONArray inputjson = Read.read_jsonFile(f,"utf-8");
 				ArrayList<Put> putDateList = new ArrayList<Put>();
 				for(int rownum = 0 ; rownum < inputjson.length() ; rownum ++)
