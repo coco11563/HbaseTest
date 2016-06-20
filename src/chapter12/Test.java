@@ -265,8 +265,10 @@ public class Test {
 		}
 		stornum = 0;
 		//开始压缩作业
-		ZipUtils.createSmbZip(smbstring,"smb://biggrab:123456@192.168.1.111/biggrab/export/2016-03-06/test.zip");
-	    
+		logger.info("start to zip the file");
+		ZipUtils.createSmbZip(smbstring,"smb://biggrab:123456@192.168.1.111/biggrab/export/"+dateplus(start,iter)+".zip");
+		logger.info("zip over");
+		fs.delete();
 	}
 	}
 
