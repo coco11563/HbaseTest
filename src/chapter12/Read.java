@@ -8,11 +8,14 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+import jcifs.smb.SmbFile;
+import jcifs.smb.SmbFileInputStream;
 import org.apache.log4j.Logger;
 
 import json.JSONArray;
 import json.JSONException;
 import json.JSONObject;
+import org.jetbrains.annotations.NotNull;
 
 public class Read {
 	private static Logger logger = Logger.getLogger(Test.class);  
@@ -56,6 +59,7 @@ public class Read {
 		 * @return
 		 * @throws JSONException 
 		 */
+		@NotNull
 		public static String readJson(String path) throws JSONException{
 			 //从给定位置获取文件
 	        File file = new File(path);
@@ -131,7 +135,8 @@ public class Read {
 		 * @throws JSONException
 		 * 可以自定义读取方式的readJSON
 		 */
-		public static String readJson(File file,String encode) throws JSONException{
+		@NotNull
+		public static String readJson(File file, String encode) throws JSONException{
 			 //从给定位置获取文件
 			FileInputStream reader = null;
 			InputStreamReader isr = null ;
@@ -170,51 +175,52 @@ public class Read {
 	        return data.toString();
 	    }
 		/**
-		 * 以自定义的字符类型读取jsonarray
-		 * @param file
-		 * @param encode
-		 * @return
-		 * @throws IOException
-		 * @throws JSONException
-		 */
-		public static JSONArray read_jsonFile ( File file,String encode ) throws IOException,JSONException
-		{
-			JSONArray json_array = new JSONArray ( ) ;
-			FileInputStream reader = null;
-			InputStreamReader isr = null ;
-			StringBuffer data = new StringBuffer();
-			try{
-			 reader =  new FileInputStream(file);
-	        //返回值,使用StringBuffer
-	         isr = new InputStreamReader(reader,encode);  
-	         BufferedReader br = new BufferedReader(isr);  
-	         
-	         String line = null;   
-	         
-	         while ((line = br.readLine()) != null) {   
-	        	 json_array.put ( new JSONObject ( line ) ) ;
-	         }
-	        
-			}catch (FileNotFoundException e) {
-	            e.printStackTrace();
-	        } catch (IOException e) {
-	            e.printStackTrace();
-	        }
-			finally
-	         {
-	            //关闭文件流
-	            if (reader != null){
-	                try {
-	                    reader.close();
-	                } catch (IOException e) {
-	                    e.printStackTrace();
-	                }
-	            }
-	        }
-			removeFile(file);
-logger.info(json_array.length());
-			return json_array ;
+	 * 以自定义的字符类型读取jsonarray
+	 * @param file
+	 * @param encode
+	 * @return
+	 * @throws IOException
+	 * @throws JSONException
+	 */
+	public static JSONArray read_jsonFile ( File file,String encode ) throws IOException,JSONException
+	{
+		JSONArray json_array = new JSONArray ( ) ;
+		FileInputStream reader = null;
+		InputStreamReader isr = null ;
+		StringBuffer data = new StringBuffer();
+		try{
+			reader =  new FileInputStream(file);
+			//返回值,使用StringBuffer
+			isr = new InputStreamReader(reader,encode);
+			BufferedReader br = new BufferedReader(isr);
+
+			String line = null;
+
+			while ((line = br.readLine()) != null) {
+				//GC OVER FLOW
+				json_array.put ( new JSONObject ( line ) ) ;
 			}
+
+		}catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		finally
+		{
+			//关闭文件流
+			if (reader != null){
+				try {
+					reader.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		removeFile(file);
+		logger.info(json_array.length());
+		return json_array ;
+	}
 		/**
 		 * 删除下载的文件
 		 * @param file
@@ -224,4 +230,51 @@ logger.info(json_array.length());
 		public static boolean removeFile(File file) {     
 		    return file.delete();     
 		}   
+
+	/**
+	 * 以自定义的字符类型读取jsonarray
+	 * @param file
+	 * @param encode
+	 * @return
+	 * @throws IOException
+	 * @throws JSONException
+	 */
+	public static JSONArray read_jsonFile (SmbFile file, String encode ) throws IOException,JSONException
+	{
+		JSONArray json_array = new JSONArray ( ) ;
+		SmbFileInputStream reader = null;
+		InputStreamReader isr = null ;
+		StringBuffer data = new StringBuffer();
+		try{
+			reader =  new SmbFileInputStream(file);
+			//返回值,使用StringBuffer
+			isr = new InputStreamReader(reader,encode);
+			BufferedReader br = new BufferedReader(isr);
+
+			String line = null;
+
+			while ((line = br.readLine()) != null) {
+				//GC OVER FLOW
+				json_array.put ( new JSONObject ( line ) ) ;
+			}
+
+		}catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		finally
+		{
+			//关闭文件流
+			if (reader != null){
+				try {
+					reader.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		logger.info(json_array.length());
+		return json_array ;
 	}
+}

@@ -138,7 +138,7 @@ final static List<String> showAllFiles(File dir) throws Exception{
 	  return returnDir;
 }
 /**
- * 
+ *
  * @param SmbFile fs2
  * @return List of remote file system
  * @throws SmbException
@@ -149,18 +149,18 @@ final static List<String> showAllFiles(SmbFile fs2) throws SmbException
 	List<String> returnDir = new ArrayList<String>();
 	  SmbFile[] fs = fs2.listFiles();
 	  for(int i=0; i<fs.length; i++){
-		 
+
 	   if(fs[i].isDirectory()){
 	    try{
-	    
+
 	    	returnDir.addAll(showAllFiles(fs[i]));
 	    }catch(Exception e){
-	    	logger.error(e.getMessage());     
+	    	logger.error(e.getMessage());
 	    }
 	   }
 	   else
 	   {
-	    
+
 		   returnDir.add(fs[i].getPath());
 	   }
 	  }

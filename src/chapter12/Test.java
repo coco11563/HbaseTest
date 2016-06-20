@@ -26,12 +26,14 @@ import org.apache.hadoop.hbase.client.Result;
 import org.apache.hadoop.hbase.client.ResultScanner;
 import org.apache.hadoop.hbase.client.Scan;
 import org.apache.hadoop.hbase.util.Bytes;
+import org.apache.hadoop.hbase.util.Threads;
 import org.apache.log4j.Logger;
 
 import json.JSONArray;
 import json.JSONException;
 import json.JSONObject;
 import jcifs.smb.*;
+import org.jruby.RubyProcess;
 
 public class Test {
 	//static变量初始化
@@ -187,7 +189,6 @@ public class Test {
 	@SuppressWarnings("deprecation")
 	public static void main(String[] agrs) throws JSONException, ParseException, IOException
 	{
-		System.setProperty("hadoop.home.dir", "C:\\Program Files\\hadoop-2.6.3");
 		
 		// 获取城市的ID JSON文件
 		JSONObject cityNumObject = new JSONObject(Read.readJson(cityNumPath));
@@ -200,6 +201,7 @@ public class Test {
 		int days = (int)((end.getTime() - start.getTime())/86400000) + 1;
 		logger.info("开始进行" + days+ "天的数据写入. . . ");
 		// 开始进行hbase读写
+		JSONArray inputjson = new JSONArray();
 		for(int iter = 0 ; iter < days ; iter ++)//天数
 		{
 		int stornum = 0; //存储写入数量
@@ -208,16 +210,41 @@ public class Test {
 		String smbzipstring = "smb://biggrab:123456@192.168.1.111/biggrab/export/"+dateplus(start,iter)+".zip";
 		SmbFile fs = new SmbFile(smbstring);
 		List<String> filestatus = GetFileStatus.showAllFiles(fs);
-		for (int i = 0; i < filestatus.size(); i++) {//按城市遍历
-			File f = GetFileStatus.Save_smb(filestatus.get(i), tmpfilepath);
-			String tablename = "city_"+(cityNumObject.getString(((f.getName()).split("\\."))[0]));
-			logger.info("城市名:"+((f.getName()).split("\\."))[0]);
-			logger.info("表名:"+cityNumObject.getString(((f.getName()).split("\\."))[0]));				
-			try {
+
+//			for(int test = 0 ; test < filestatus.size() ; test ++)
+//			{		if(filestatus.get(test).split("/").length == 8) {
+//				System.out.println(filestatus.get(test));
+//				System.out.println((filestatus.get(test).split("/")[7]));
+//			}
+//				else{
+//				System.out.println(filestatus.get(test));
+//				System.out.println((filestatus.get(test).split("/")[6]));
+//			}
+//			}
+//			Threads.sleep(10000);
+			for (int i = 0; i < filestatus.size(); i++) {//按城市遍历
+				String tablename = "city_";
+			//File f = GetFileStatus.Save_smb(filestatus.get(i), tmpfilepath);
+			//String tablename = "city_"+(cityNumObject.getString(((f.getName()).split("\\."))[0]));
+			//logger.info("城市名:"+((f.getName()).split("\\."))[0]);
+			//logger.info("表名:"+cityNumObject.getString(((f.getName()).split("\\."))[0]));
+				if(filestatus.get(i).split("/").length == 8) {
+					tablename = tablename + (cityNumObject.getString((filestatus.get(i).split("/")[7]).split("\\.")[0]));
+					logger.info("城市名:" + ((filestatus.get(i).split("/"))[7]).split("\\.")[0]);
+					logger.info("表名:" + tablename);
+				}
+				else
+				{
+					tablename = tablename + (cityNumObject.getString((filestatus.get(i).split("/")[6]).split("\\.")[0]));
+					logger.info("城市名:" + ((filestatus.get(i).split("/"))[6]).split("\\.")[0]);
+					logger.info("表名:" + tablename);
+				}
+                try {
+					SmbFile remotefs = new SmbFile(filestatus.get(i));
+				inputjson = Read.read_jsonFile(remotefs,"utf-8");
+					stornum += inputjson.length() ;
 				Test.create(tablename,columnFamily);
 				HTable cityTable = new HTable(cfg,tablename);
-				
-				JSONArray inputjson = Read.read_jsonFile(f,"utf-8");
 				ArrayList<Put> putDateList = new ArrayList<Put>();
 				for(int rownum = 0 ; rownum < inputjson.length() ; rownum ++)//按行数遍历
 				{		
@@ -240,8 +267,9 @@ public class Test {
 				cityTable.flushCommits();
 				putDateList.clear();
 				logger.info("结尾处进行一次写入");
+					inputjson = null ;
 				cityTable.close();
-				stornum += inputjson.length() ;
+
 			}
 
 			catch (Exception e) {
@@ -266,7 +294,7 @@ public class Test {
 		stornum = 0;
 		//开始压缩作业
 		logger.info("start to zip the file");
-		ZipUtils.createSmbZip(smbstring,"smb://biggrab:123456@192.168.1.111/biggrab/export/"+dateplus(start,iter)+".zip");
+		ZipUtils.createSmbZip(smbstring,smbzipstring);
 		logger.info("zip over");
 		fs.delete();
 	}
