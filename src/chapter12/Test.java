@@ -39,6 +39,7 @@ public class Test {
 	private final static String cityNumPath = "./conf/cityNum.json";
 	private final static String timesetpath = "./conf/timeSetting.json";
 	private final static String completeddate = "./conf/CompletedDate.json";
+	private final static String completednum = "./conf/completednum.json";
 	
 	// 获取HBaseConfiguration
 	static Configuration cfg = HBaseConfiguration.create();
@@ -199,13 +200,15 @@ public class Test {
 		int days = (int)((end.getTime() - start.getTime())/86400000) + 1;
 		logger.info("开始进行" + days+ "天的数据写入. . . ");
 		// 开始进行hbase读写
-		for(int iter = 0 ; iter < days ; iter ++)
+		for(int iter = 0 ; iter < days ; iter ++)//天数
 		{
+		int stornum = 0; //存储写入数量
 		long start_oneday_time = new Date().getTime();
 		String smbstring = "smb://biggrab:123456@192.168.1.111/biggrab/export/"+dateplus(start,iter)+"/";
+		String smbzipstring = "smb://biggrab:123456@192.168.1.111/biggrab/export/"+dateplus(start,iter)+".zip";
 		SmbFile fs = new SmbFile(smbstring);
 		List<String> filestatus = GetFileStatus.showAllFiles(fs);
-		for (int i = 0; i < filestatus.size(); i++) {
+		for (int i = 0; i < filestatus.size(); i++) {//按城市遍历
 			File f = GetFileStatus.Save_smb(filestatus.get(i), tmpfilepath);
 			String tablename = "city_"+(cityNumObject.getString(((f.getName()).split("\\."))[0]));
 			logger.info("城市名:"+((f.getName()).split("\\."))[0]);
@@ -216,7 +219,7 @@ public class Test {
 				
 				JSONArray inputjson = Read.read_jsonFile(f,"utf-8");
 				ArrayList<Put> putDateList = new ArrayList<Put>();
-				for(int rownum = 0 ; rownum < inputjson.length() ; rownum ++)
+				for(int rownum = 0 ; rownum < inputjson.length() ; rownum ++)//按行数遍历
 				{		
 				HashMap<String,String> array = SinaJsonRead.getJsonData(inputjson.getJSONObject(rownum));								
 				String UserID = getUserID(array.get("user"));
@@ -238,23 +241,32 @@ public class Test {
 				putDateList.clear();
 				logger.info("结尾处进行一次写入");
 				cityTable.close();
+				stornum += inputjson.length() ;
 			}
 
 			catch (Exception e) {
 				e.printStackTrace();
 			
 			}
+			
 		}
+		
+		
 		//完成一天的写入
 		String times = Integer.toString(iter);
 		long end_oneday_time = new Date().getTime();
 		long use_time = (end_oneday_time - start_oneday_time)/(1000*60);//分钟存储运行时间
 		try {
+			numInsert(dateplus(start,iter),stornum) ;
 			dateInsert((times+"_"+use_time), dateplus(start,iter));
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		stornum = 0;
+		//开始压缩作业
+		ZipUtils.createSmbZip(smbstring,"smb://biggrab:123456@192.168.1.111/biggrab/export/2016-03-06/test.zip");
+	    
 	}
 	}
 
@@ -273,6 +285,21 @@ public class Test {
         bufferWritter.close();
 
         logger.info("Done One day");
+	}
+	private static void numInsert(String date,int stornum) throws JSONException, IOException {
+		// TODO Auto-generated method stub
+		JSONObject cd = new JSONObject();
+		cd.append(date,stornum );
+		File f = new File(completednum);
+	    if(!f.exists()){
+	        f.createNewFile();
+	       }
+	    FileWriter fileWritter = new FileWriter(f.getName(),true);
+        BufferedWriter bufferWritter = new BufferedWriter(fileWritter);
+        bufferWritter.write(cd.toString());
+        bufferWritter.close();
+
+        logger.info("log one day num");
 	}
 	private static String getUserID(String JsonString) throws JSONException {
 		// TODO Auto-generated method stub
