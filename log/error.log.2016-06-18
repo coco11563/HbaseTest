@@ -1,0 +1,53 @@
+2016-06-18 11:09:53  [ main:39533 ] - [ ERROR  ]  Failed to locate the winutils binary in the hadoop binary path
+java.io.IOException: Could not locate executable null\bin\winutils.exe in the Hadoop binaries.
+	at org.apache.hadoop.util.Shell.getQualifiedBinPath(Shell.java:355)
+	at org.apache.hadoop.util.Shell.getWinUtilsPath(Shell.java:370)
+	at org.apache.hadoop.util.Shell.<clinit>(Shell.java:363)
+	at org.apache.hadoop.util.StringUtils.<clinit>(StringUtils.java:78)
+	at org.apache.hadoop.security.Groups.parseStaticMapping(Groups.java:93)
+	at org.apache.hadoop.security.Groups.<init>(Groups.java:77)
+	at org.apache.hadoop.security.Groups.getUserToGroupsMappingService(Groups.java:240)
+	at org.apache.hadoop.security.Groups.getUserToGroupsMappingService(Groups.java:225)
+	at org.apache.hadoop.hbase.security.UserProvider.<clinit>(UserProvider.java:56)
+	at org.apache.hadoop.hbase.client.HConnectionKey.<init>(HConnectionKey.java:71)
+	at org.apache.hadoop.hbase.client.ConnectionManager.getConnectionInternal(ConnectionManager.java:298)
+	at org.apache.hadoop.hbase.client.HBaseAdmin.<init>(HBaseAdmin.java:235)
+	at chapter12.Test.create(Test.java:66)
+	at chapter12.Test.main(Test.java:214)
+2016-06-18 11:21:17  [ main:1507 ] - [ ERROR  ]  Failed to locate the winutils binary in the hadoop binary path
+java.io.IOException: Could not locate executable D:\DESKTOP\hadoop\bin\winutils.exe in the Hadoop binaries.
+	at org.apache.hadoop.util.Shell.getQualifiedBinPath(Shell.java:355)
+	at org.apache.hadoop.util.Shell.getWinUtilsPath(Shell.java:370)
+	at org.apache.hadoop.util.Shell.<clinit>(Shell.java:363)
+	at org.apache.hadoop.util.StringUtils.<clinit>(StringUtils.java:78)
+	at org.apache.hadoop.security.Groups.parseStaticMapping(Groups.java:93)
+	at org.apache.hadoop.security.Groups.<init>(Groups.java:77)
+	at org.apache.hadoop.security.Groups.getUserToGroupsMappingService(Groups.java:240)
+	at org.apache.hadoop.security.Groups.getUserToGroupsMappingService(Groups.java:225)
+	at org.apache.hadoop.hbase.security.UserProvider.<clinit>(UserProvider.java:56)
+	at org.apache.hadoop.hbase.client.HConnectionKey.<init>(HConnectionKey.java:71)
+	at org.apache.hadoop.hbase.client.ConnectionManager.getConnectionInternal(ConnectionManager.java:298)
+	at org.apache.hadoop.hbase.client.HBaseAdmin.<init>(HBaseAdmin.java:235)
+	at chapter12.Test.create(Test.java:66)
+	at chapter12.Test.main(Test.java:214)
+2016-06-18 12:42:23  [ main:1589 ] - [ ERROR  ]  Failed to locate the winutils binary in the hadoop binary path
+java.io.IOException: Could not locate executable null\bin\winutils.exe in the Hadoop binaries.
+	at org.apache.hadoop.util.Shell.getQualifiedBinPath(Shell.java:355)
+	at org.apache.hadoop.util.Shell.getWinUtilsPath(Shell.java:370)
+	at org.apache.hadoop.util.Shell.<clinit>(Shell.java:363)
+	at org.apache.hadoop.util.StringUtils.<clinit>(StringUtils.java:78)
+	at org.apache.hadoop.security.Groups.parseStaticMapping(Groups.java:93)
+	at org.apache.hadoop.security.Groups.<init>(Groups.java:77)
+	at org.apache.hadoop.security.Groups.getUserToGroupsMappingService(Groups.java:240)
+	at org.apache.hadoop.security.Groups.getUserToGroupsMappingService(Groups.java:225)
+	at org.apache.hadoop.hbase.security.UserProvider.<clinit>(UserProvider.java:56)
+	at org.apache.hadoop.hbase.client.HConnectionKey.<init>(HConnectionKey.java:71)
+	at org.apache.hadoop.hbase.client.ConnectionManager.getConnectionInternal(ConnectionManager.java:298)
+	at org.apache.hadoop.hbase.client.HBaseAdmin.<init>(HBaseAdmin.java:235)
+	at chapter12.Test.create(Test.java:66)
+	at chapter12.Test.main(Test.java:213)
+2016-06-18 12:43:19  [ main:3617 ] - [ ERROR  ]  table Exists!
+2016-06-18 12:43:20  [ main:4837 ] - [ ERROR  ]  table Exists!
+2016-06-18 12:43:21  [ main:5313 ] - [ ERROR  ]  table Exists!
+2016-06-18 12:43:21  [ main:6023 ] - [ ERROR  ]  table Exists!
+2016-06-18 12:43:27  [ main:11852 ] - [ ERROR  ]  table Exists!
