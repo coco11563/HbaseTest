@@ -8,7 +8,7 @@ import json.JSONObject;
 public class SinaJsonRead {
 	/**
 	 * 写入json文件输出相应的映射文件
-	 * @param jsonobject
+	 * @param json
 	 * @return json mapper
 	 * @throws JSONException
 	 */

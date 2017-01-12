@@ -75,6 +75,25 @@
         <name>hbase.server.thread.wakefrequency</name>  
         <value>30000</value>  
         <description>Time to sleep in between searches for work (in milliseconds).Used as sleep interval by service threads such as log roller.</description>  
-    </property>  
+    </property>
+    <property>
+        <name>hbase.client.scanner.timeout.period</name>
+        <value>600000</value>
+        <description>保证不会出现rpc expired</description>
+    </property>
+
+    <property>
+        <name>hbase.rpc.timeout</name>
+        <value>600000</value>
+        <description>
+            hbase.client.scanner.timeout.period和
+            hbase.rpc.timeout最好配置一样大
+        </description>
+    </property>
+
+
+
+
+
 
 </configuration>

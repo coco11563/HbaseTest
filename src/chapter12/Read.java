@@ -15,7 +15,6 @@ import org.apache.log4j.Logger;
 import json.JSONArray;
 import json.JSONException;
 import json.JSONObject;
-import org.jetbrains.annotations.NotNull;
 
 public class Read {
 	private static Logger logger = Logger.getLogger(Test.class);  
@@ -59,7 +58,6 @@ public class Read {
 		 * @return
 		 * @throws JSONException 
 		 */
-		@NotNull
 		public static String readJson(String path) throws JSONException{
 			 //从给定位置获取文件
 	        File file = new File(path);
@@ -135,7 +133,6 @@ public class Read {
 		 * @throws JSONException
 		 * 可以自定义读取方式的readJSON
 		 */
-		@NotNull
 		public static String readJson(File file, String encode) throws JSONException{
 			 //从给定位置获取文件
 			FileInputStream reader = null;
