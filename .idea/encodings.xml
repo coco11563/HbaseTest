@@ -13,6 +13,9 @@
     <file url="file://$PROJECT_DIR$/conf/log4j.properties" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/conf/mapred-site.xml" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/conf/yarn-site.xml" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/HbaseImporter/GeoHashPart/GeoHash.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/HbaseImporter/GeoHashPart/Location.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/HbaseImporter/HolidayPart/data" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/chapter12/Read.java" charset="GBK" />
     <file url="file://$PROJECT_DIR$/src/chapter12/Test.java" charset="GBK" />
     <file url="PROJECT" charset="GBK" />
