@@ -12,8 +12,7 @@ public class SinaJsonRead {
 	 * @return json mapper
 	 * @throws JSONException
 	 */
-public static HashMap<String, String> getJsonData(JSONObject json) throws JSONException
-{
+public static HashMap<String, String> getJsonData(JSONObject json) throws JSONException {
 	
 	@SuppressWarnings("rawtypes")
 	Iterator iterator = json.keys();
