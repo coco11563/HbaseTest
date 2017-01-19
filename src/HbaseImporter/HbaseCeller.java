@@ -1,11 +1,14 @@
 package HbaseImporter;
 
 import HbaseImporter.ConfigurePart.Inial;
+import HbaseImporter.DatePart.dateFormat;
+import HbaseImporter.DatePart.dateUtil;
 import HbaseImporter.GeoHashPart.GeoHash;
 import json.JSONException;
 import json.JSONObject;
 
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.Date;
 
 
@@ -27,11 +30,11 @@ public class HbaseCeller {
         String geo_Hash;
         String user_id;
         String weibo_id;
-        int year;
-        int month;
-        int day;
+        String year;
+        String month;
+        String day;
         int isHoliday;
-        rowKey(JSONObject weiboInform, Inial inial) throws JSONException {
+        rowKey(JSONObject weiboInform, Inial inial) throws JSONException, ParseException {
             this.country_id = inial.getCountry_id(weiboInform.getJSONArray("url_objects").
                     getJSONObject(0).getJSONObject("object").getJSONObject("object").getJSONObject("address").
                     getString("country"));
@@ -44,8 +47,8 @@ public class HbaseCeller {
             this.geo_Hash = new GeoHash(lat, lng).getGeoHashBase32();
             this.user_id = weiboInform.getJSONObject("user").getString("id");
             this.weibo_id = weiboInform.getString("idstr");
-            String date = weiboInform.getString("created_at");
-            Date d = new Date(date);
+            String[] date = weiboInform.getString("created_at").split(" ");
+            dateFormat d = new dateFormat(date);
             this.year = d.getYear();
             this.month = d.getMonth();
             this.day = d.getDay();
@@ -61,7 +64,7 @@ public class HbaseCeller {
 
 
     }
-    public static void main(String args[]) throws JSONException, IOException {
+    public static void main(String args[]) throws JSONException, IOException, ParseException {
         Inial inial = new Inial();
         rowKey rk = new rowKey(new JSONObject(json), inial);
         System.out.println(rk.toString());
