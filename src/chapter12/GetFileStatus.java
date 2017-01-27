@@ -13,10 +13,10 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 import org.apache.log4j.Logger;
 
-import json.JSONArray;
-import json.JSONObject;
 import jcifs.smb.*;
   
 public class GetFileStatus{
@@ -44,7 +44,7 @@ public class GetFileStatus{
 	List<String> list = showAllFiles(fs);
 	File fs1 = Save_smb(list.get(1),tmpfilepath);
 	logger.info((fs1.getName()).split("\\.")[0]);
-	JSONObject timesetting = new JSONObject(Read.readJson("D:\\库\\文档\\eclipse workspace\\HbaseTest\\conf\\timeSetting.json"));
+	JSONObject timesetting = JSONObject.fromObject(Read.readJson("D:\\库\\文档\\eclipse workspace\\HbaseTest\\conf\\timeSetting.json"));
 	//获取本次起止时间
 	 SimpleDateFormat df = new SimpleDateFormat("yyyy-mm-dd");
 	Date start = df.parse("2016-03-07");
@@ -113,7 +113,7 @@ public static File Save_smb(String smbfile,String tmpfilepath)
 	}
 /**
  * 
- * @param local path File
+ * @param dir local path File
  * @return local path list
  * @throws Exception
  * @author coco1
@@ -139,7 +139,7 @@ final static List<String> showAllFiles(File dir) throws Exception{
 }
 /**
  *
- * @param SmbFile fs2
+ * @param fs2 SmbFile fs2
  * @return List of remote file system
  * @throws SmbException
  * @author coco1

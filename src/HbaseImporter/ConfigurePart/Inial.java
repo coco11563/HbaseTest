@@ -1,7 +1,6 @@
 package HbaseImporter.ConfigurePart;
-
-import json.JSONException;
-import json.JSONObject;
+import net.sf.json.JSONException;
+import net.sf.json.JSONObject;
 
 import java.io.*;
 import java.util.HashMap;
@@ -45,7 +44,7 @@ public class Inial {
         while((temp = br.readLine()) != null){
             data += temp;
         }
-        JSONObject json = new JSONObject(data);
+        JSONObject json = JSONObject.fromObject(data);
         cityNum.putAll(getJsonData(json));
     }
 
@@ -59,7 +58,7 @@ public class Inial {
         while((temp = br.readLine()) != null){
             data += temp;
         }
-        JSONObject json = new JSONObject(data);
+        JSONObject json = JSONObject.fromObject(data);
         countryNum.putAll(getJsonData(json));
     }
     public static void inialProvince() throws IOException, JSONException {
@@ -72,7 +71,7 @@ public class Inial {
         while((temp = br.readLine()) != null){
             data += temp;
         }
-        JSONObject json = new JSONObject(data);
+        JSONObject json = JSONObject.fromObject(data);
         provinceNum.putAll(getJsonData(json));
     }
     private static HashMap<String, String> getJsonData(JSONObject json) throws JSONException {

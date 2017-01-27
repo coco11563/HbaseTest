@@ -1,7 +1,7 @@
 package HbaseImporter.DatePart;
 
-import json.JSONException;
-import json.JSONObject;
+import net.sf.json.JSONException;
+import net.sf.json.JSONObject;
 
 import java.io.*;
 import java.util.HashMap;
@@ -73,7 +73,7 @@ public class dateFormat {
         while((temp = br.readLine()) != null){
             data += temp;
         }
-        JSONObject json = new JSONObject(data);
+        JSONObject json = JSONObject.fromObject(data);
         monthDate.putAll(getJsonData(json));
     }
 }

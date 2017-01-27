@@ -32,8 +32,8 @@ public class ChineseHoliday{
 
     /**
      *
-     * @param d ÏëÒª«@È¡ÊÇ·ñ ‘¹¼ÙÈÕµÄÈÕÆÚ
-     * @return 0  ‘¹¤×÷ÈÕ 1  ‘¹ÈÕ 2  ‘ßLÄ©
+     * @param d éœ€è¦åˆ¤å®šçš„æ—¥æœŸ
+     * @return 1 èŠ‚å‡æ—¥ 2 å‘¨æœ« 0 å·¥ä½œæ—¥
      */
     public static Integer getHoliday(Date d) {
         if (holidayBuffer.containsKey(d)) {
@@ -42,6 +42,12 @@ public class ChineseHoliday{
             return isWeekend(d) ? 2 : 0;
         }
     }
+
+    /**
+     *
+     * @param d
+     * @return true if is weekend
+     */
     private static boolean isWeekend(Date d) {
         Calendar cal = Calendar.getInstance();
         cal.setTime(d);

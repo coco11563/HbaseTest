@@ -1,9 +1,10 @@
 package chapter12;
 
+import net.sf.json.JSONException;
+import net.sf.json.JSONObject;
+
 import java.util.HashMap;
 import java.util.Iterator;
-import json.JSONException;
-import json.JSONObject;
 
 public class SinaJsonRead {
 	/**

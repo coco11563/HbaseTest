@@ -10,11 +10,10 @@ import java.io.InputStreamReader;
 
 import jcifs.smb.SmbFile;
 import jcifs.smb.SmbFileInputStream;
+import net.sf.json.JSONArray;
+import net.sf.json.JSONException;
+import net.sf.json.JSONObject;
 import org.apache.log4j.Logger;
-
-import json.JSONArray;
-import json.JSONException;
-import json.JSONObject;
 
 public class Read {
 	private static Logger logger = Logger.getLogger(Test.class);  
@@ -26,7 +25,7 @@ public class Read {
 		 * @throws IOException
 		 * @throws JSONException
 		 */
-		public static JSONArray read_jsonFile ( String path ) throws IOException,JSONException
+		public static JSONArray read_jsonFile (String path ) throws IOException,JSONException
 		{
 			JSONArray json_array = new JSONArray ( ) ;
 			File file = new File ( path ) ;
@@ -34,7 +33,7 @@ public class Read {
 			String tempString = null ;
 			while ( ( tempString = reader.readLine ( ) ) != null )
 			{
-				json_array.put ( new JSONObject ( tempString ) ) ;
+				json_array.element ( JSONObject.fromObject( tempString ) ) ;
 				}
 			reader.close ( ) ;
 			return json_array ;
@@ -47,11 +46,11 @@ public class Read {
 			String tempString = null ;
 			while ( ( tempString = reader.readLine ( ) ) != null )
 			{
-				json_array.put ( new JSONObject ( tempString ) ) ;
-				}
+				json_array.element ( JSONObject.fromObject( tempString ) ) ;
+			}
 			reader.close ( ) ;
 			return json_array ;
-			}
+		}
 		/**
 		 * ¶ÁÈ¡ÎÄ¼þ
 		 * @param path
@@ -195,7 +194,7 @@ public class Read {
 
 			while ((line = br.readLine()) != null) {
 				//GC OVER FLOW
-				json_array.put ( new JSONObject ( line ) ) ;
+				json_array.element ( JSONObject.fromObject ( line ) ) ;
 			}
 
 		}catch (FileNotFoundException e) {
@@ -215,7 +214,7 @@ public class Read {
 			}
 		}
 		removeFile(file);
-		logger.info(json_array.length());
+		logger.info(json_array.size());
 		return json_array ;
 	}
 		/**
@@ -252,7 +251,7 @@ public class Read {
 
 			while ((line = br.readLine()) != null) {
 				//GC OVER FLOW
-				json_array.put ( new JSONObject ( line ) ) ;
+				json_array.element ( JSONObject.fromObject ( line ) ) ;
 			}
 
 		}catch (FileNotFoundException e) {
@@ -271,7 +270,7 @@ public class Read {
 				}
 			}
 		}
-		logger.info(json_array.length());
+		logger.info(json_array.size());
 		return json_array ;
 	}
 }

@@ -2,14 +2,12 @@ package HbaseImporter;
 
 import HbaseImporter.ConfigurePart.Inial;
 import HbaseImporter.DatePart.dateFormat;
-import HbaseImporter.DatePart.dateUtil;
 import HbaseImporter.GeoHashPart.GeoHash;
-import json.JSONException;
-import json.JSONObject;
+import net.sf.json.JSONException;
+import net.sf.json.JSONObject;
 
 import java.io.IOException;
 import java.text.ParseException;
-import java.util.Date;
 
 
 import static HbaseImporter.HolidayPart.ChineseHoliday.getHoliday;
@@ -66,7 +64,7 @@ public class HbaseCeller {
     }
     public static void main(String args[]) throws JSONException, IOException, ParseException {
         Inial inial = new Inial();
-        rowKey rk = new rowKey(new JSONObject(json), inial);
+        rowKey rk = new rowKey(JSONObject.fromObject(json), inial);
         System.out.println(rk.toString());
     }
     class OtherInform {
