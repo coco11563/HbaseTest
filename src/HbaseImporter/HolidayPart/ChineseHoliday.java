@@ -8,7 +8,7 @@ import java.util.*;
 public class ChineseHoliday{
     private final static Map<Date, Integer> holidayBuffer = new HashMap<>();
     private final static List<File> dataPath = new ArrayList<>();
-    private final static String storDataPath = "/root/Documents/IdeaWork/HbaseTest/src/HbaseImporter/HolidayPart/data";
+    private final static String storDataPath = "./src/HbaseImporter/HolidayPart/data";
 
     static {
         getFilePath(new File(storDataPath));

@@ -1,23 +1,18 @@
-package chapter12;
-import java.io.BufferedInputStream;
-import java.io.DataInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.UnknownHostException;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipOutputStream;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+package HbaseImporter.ZipPart;
 
 import jcifs.smb.SmbException;
 import jcifs.smb.SmbFile;
 import jcifs.smb.SmbFileInputStream;
 import jcifs.smb.SmbFileOutputStream;
- 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.*;
+import java.net.MalformedURLException;
+import java.net.UnknownHostException;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
+
 public class ZipUtils {
 
 	/**
@@ -27,8 +22,9 @@ public class ZipUtils {
 
 	    private static final Logger log = LoggerFactory.getLogger(ZipUtils.class);
 	         
-	    private ZipUtils(){};
-	   /**
+	    private ZipUtils(){}
+
+	/**
 	     * 创建ZIP文件
 	     * @param sourcePath 文件或文件夹路径
 	     * @param zipPath 生成的zip文件存在路径（包括文件名）
@@ -68,7 +64,7 @@ public class ZipUtils {
 				        SmbFileInputStream fis=null;
 				        DataInputStream dis=null;
 				        try {
-				            fis=new jcifs.smb.SmbFileInputStream(smbFile);
+				            fis=new SmbFileInputStream(smbFile);
 				            dis=new DataInputStream(new BufferedInputStream(fis));
 				            ZipEntry ze = new ZipEntry(parentPath + smbFile.getName());
 				            zos.putNextEntry(ze);

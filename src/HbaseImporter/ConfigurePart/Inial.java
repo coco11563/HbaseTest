@@ -74,7 +74,7 @@ public class Inial {
         JSONObject json = JSONObject.fromObject(data);
         provinceNum.putAll(getJsonData(json));
     }
-    private static HashMap<String, String> getJsonData(JSONObject json) throws JSONException {
+    public static HashMap<String, String> getJsonData(JSONObject json) throws JSONException {
         @SuppressWarnings("rawtypes")
         Iterator iterator = json.keys();
         HashMap<String,String> mapper = new HashMap<String, String>();

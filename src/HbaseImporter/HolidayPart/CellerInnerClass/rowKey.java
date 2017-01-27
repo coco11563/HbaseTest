@@ -56,7 +56,8 @@ public class rowKey {
 
 
     public static void main(String args[]) throws JSONException, IOException, ParseException {
-
-        System.out.println(1);
+        Inial inial = new Inial();
+        rowKey rk = new rowKey(JSONObject.fromObject(json), inial );
+        System.out.println(rk.toString());
     }
 }

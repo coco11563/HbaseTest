@@ -1,13 +1,6 @@
-package chapter12;
+package HbaseImporter;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-
+import HbaseImporter.TestAndOld.HbaseImporter;
 import jcifs.smb.SmbFile;
 import jcifs.smb.SmbFileInputStream;
 import net.sf.json.JSONArray;
@@ -15,8 +8,10 @@ import net.sf.json.JSONException;
 import net.sf.json.JSONObject;
 import org.apache.log4j.Logger;
 
+import java.io.*;
+
 public class Read {
-	private static Logger logger = Logger.getLogger(Test.class);  
+	private static Logger logger = Logger.getLogger(HbaseImporter.class);
 
 		/**
 		 * 读取我们的json数据
