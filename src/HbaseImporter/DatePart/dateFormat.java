@@ -4,6 +4,9 @@ import net.sf.json.JSONException;
 import net.sf.json.JSONObject;
 
 import java.io.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -20,6 +23,7 @@ public class dateFormat {
     private String month;
     private String day;
     private String year;
+    private String time;
     /**
      * Tue Nov 03 21:30:36 +0800 2015
      * week[0] month[1] day[2] HHMMSS[3] CST[4] YEAR[5]
@@ -36,6 +40,7 @@ public class dateFormat {
         setMonth(monthDate.get(segment[1]));
         setDay(segment[2]);
         setYear(segment[5]);
+        setTime(segment[3]);
     }
 
 
@@ -75,5 +80,29 @@ public class dateFormat {
         }
         JSONObject json = JSONObject.fromObject(data);
         monthDate.putAll(getJsonData(json));
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+    @Override
+    public String toString() {
+        return getYear() + "-" + getMonth() + "-" + getDay() + " " + getTime();
+    }
+
+    public Date toDate() throws ParseException {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        return sdf.parse(toString());
+    }
+
+
+    public static void main(String args[]) {
+        // week[0] month[1] day[2] HHMMSS[3] CST[4] YEAR[5]
+        dateFormat df = new dateFormat(new String[]{"1", "12", "3", "12:34:00", "CST", "2008"});
+
     }
 }

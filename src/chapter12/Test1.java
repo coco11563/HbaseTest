@@ -25,14 +25,14 @@ import org.apache.hadoop.hbase.filter.RowFilter;
 import org.apache.hadoop.hbase.protobuf.generated.HBaseProtos.CompareType;
 import org.apache.hadoop.hbase.util.Bytes;
 
-import json.JSONException;
-import json.JSONObject;
+import net.sf.json.JSONException;
+import net.sf.json.JSONObject;
 
 public class Test1 {
-	//������̬���� HBaseConfiguration
+
     static Configuration cfg=HBaseConfiguration.create();
 
-    //����һ�ű��ͨ��HBaseAdmin HTableDescriptor������
+
     public static void creat(String tablename,String columnFamily) throws Exception {
         @SuppressWarnings({ "resource", "deprecation" })
 		HBaseAdmin admin = new HBaseAdmin(cfg);
@@ -99,7 +99,7 @@ public class Test1 {
 		// TODO Auto-generated method stub
 		
 		JSONObject cd = new JSONObject();
-		cd.append("completedate_" + iter,date );
+		cd.element("completedate_" + iter,date );
 		File f = new File("./conf/CompletedDate.json");
 	    if(!f.exists()){
 	        f.createNewFile();

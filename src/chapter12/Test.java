@@ -29,9 +29,9 @@ import org.apache.hadoop.hbase.util.Bytes;
 import org.apache.hadoop.hbase.util.Threads;
 import org.apache.log4j.Logger;
 
-import json.JSONArray;
-import json.JSONException;
-import json.JSONObject;
+import net.sf.json.JSONArray;
+import net.sf.json.JSONException;
+import net.sf.json.JSONObject;
 import jcifs.smb.*;
 import org.jruby.RubyProcess;
 
@@ -191,9 +191,9 @@ public class Test {
 	{
 		
 		// 获取城市的ID JSON文件
-		JSONObject cityNumObject = new JSONObject(Read.readJson(cityNumPath));
+		JSONObject cityNumObject = JSONObject.fromObject(Read.readJson(cityNumPath));
 		
-		JSONObject timesetting = new JSONObject(Read.readJson(timesetpath));
+		JSONObject timesetting = JSONObject.fromObject(Read.readJson(timesetpath));
 		//参数初始化
 		 SimpleDateFormat df = new SimpleDateFormat("yyyy-mm-dd");
 		Date start = df.parse(timesetting.getString("start-time"));
@@ -242,11 +242,11 @@ public class Test {
                 try {
 					SmbFile remotefs = new SmbFile(filestatus.get(i));
 				inputjson = Read.read_jsonFile(remotefs,"utf-8");
-					stornum += inputjson.length() ;
+					stornum += inputjson.size() ;
 				Test.create(tablename,columnFamily);
 				HTable cityTable = new HTable(cfg,tablename);
 				ArrayList<Put> putDateList = new ArrayList<Put>();
-				for(int rownum = 0 ; rownum < inputjson.length() ; rownum ++)//按行数遍历
+				for(int rownum = 0 ; rownum < inputjson.size() ; rownum ++)//按行数遍历
 				{		
 				HashMap<String,String> array = SinaJsonRead.getJsonData(inputjson.getJSONObject(rownum));								
 				String UserID = getUserID(array.get("user"));
@@ -304,7 +304,7 @@ public class Test {
 	private static void dateInsert(String iter,String date) throws JSONException, IOException {
 		// TODO Auto-generated method stub
 		JSONObject cd = new JSONObject();
-		cd.append("completedate_" + iter,date );
+		cd.element("completedate_" + iter,date );
 		File f = new File(completeddate);
 	    if(!f.exists()){
 	        f.createNewFile();
@@ -319,7 +319,7 @@ public class Test {
 	private static void numInsert(String date,int stornum) throws JSONException, IOException {
 		// TODO Auto-generated method stub
 		JSONObject cd = new JSONObject();
-		cd.append(date,stornum );
+		cd.element(date,stornum );
 		File f = new File(completednum);
 	    if(!f.exists()){
 	        f.createNewFile();
@@ -333,7 +333,7 @@ public class Test {
 	}
 	private static String getUserID(String JsonString) throws JSONException {
 		// TODO Auto-generated method stub
-		JSONObject j = new JSONObject(JsonString);
+		JSONObject j = JSONObject.fromObject(JsonString);
 		String gender = j.getString("gender");
 		String id = j.getString("id");
 		String renturnstring = gender + "_" +  id;
