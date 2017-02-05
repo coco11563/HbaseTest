@@ -5,15 +5,12 @@ import HbaseImporter.DatePart.dateFormat;
 import HbaseImporter.GeoHashPart.GeoHash;
 import net.sf.json.JSONException;
 import net.sf.json.JSONObject;
-
-import java.io.IOException;
 import java.text.ParseException;
-
-import static HbaseImporter.HbaseCeller.json;
 import static HbaseImporter.HolidayPart.ChineseHoliday.getHoliday;
 
 /**
  * Created by coco1 on 2017/1/27.
+ *
  */
 public class rowKey {
     private String country_id;
@@ -51,13 +48,5 @@ public class rowKey {
         return this.country_id + "_" + this.province_id + "_" + this.city_id + "_" +
                 this.geo_Hash + "_" + this.year + "_" + this.month + "_" + this.day + "_" + this.isHoliday +
                 "_" + this.user_id + "_" + this.weibo_id;
-    }
-
-
-
-    public static void main(String args[]) throws JSONException, IOException, ParseException {
-        Inial inial = new Inial();
-        rowKey rk = new rowKey(JSONObject.fromObject(json), inial );
-        System.out.println(rk.toString());
     }
 }

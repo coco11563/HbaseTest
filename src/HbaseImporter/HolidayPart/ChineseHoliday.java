@@ -12,7 +12,7 @@ public class ChineseHoliday{
 
     static {
         getFilePath(new File(storDataPath));
-        String temp = "";
+        String temp;
         for (File f : dataPath) {
             try {
                 BufferedReader reader = new BufferedReader(new FileReader(f));
@@ -45,7 +45,7 @@ public class ChineseHoliday{
 
     /**
      *
-     * @param d
+     * @param d 目标日期
      * @return true if is weekend
      */
     private static boolean isWeekend(Date d) {
