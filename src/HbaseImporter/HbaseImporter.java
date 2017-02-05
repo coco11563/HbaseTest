@@ -6,8 +6,8 @@ import net.sf.json.JSONException;
 import net.sf.json.JSONObject;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.HBaseConfiguration;
-import org.apache.hadoop.hbase.client.*;
-import org.apache.hadoop.hbase.util.Bytes;
+import org.apache.hadoop.hbase.client.HTable;
+import org.apache.hadoop.hbase.client.Put;
 import org.apache.log4j.Logger;
 
 import java.io.BufferedWriter;
@@ -16,10 +16,12 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 
-import static HbaseImporter.ConfigurePart.Inial.getJsonData;
-import static HbaseImporter.ZipPart.GeiFileStatus.showAllFiles;
+import static HbaseImporter.ZipPart.GetFileStatus.showAllFiles;
 import static HbaseImporter.ZipPart.ZipUtils.createSmbZip;
 import static HbaseUtil.HbaseOperation.columnFamily;
 
@@ -35,7 +37,7 @@ public class HbaseImporter {
     static Configuration cfg = HBaseConfiguration.create();
 
 
-
+    private static String TableName = "SinaWeiboDataStorage";
     //log4j initial
 
     private static Logger logger = Logger.getLogger(HbaseImporter.class);
@@ -61,7 +63,6 @@ public class HbaseImporter {
 
         // 获取城市的ID JSON文件
         JSONObject cityNumObject = JSONObject.fromObject(Read.readJson(cityNumPath));
-
         JSONObject timesetting = JSONObject.fromObject(Read.readJson(timesetpath));
         //参数初始化
         SimpleDateFormat df = new SimpleDateFormat("yyyy-mm-dd");
@@ -79,51 +80,31 @@ public class HbaseImporter {
             String smbzipstring = "smb://biggrab:123456@192.168.1.111/biggrab/export/"+dateplus(start,iter)+".zip";
             SmbFile fs = new SmbFile(smbstring);
             List<String> filestatus = showAllFiles(fs);
-
-//			for(int test = 0 ; test < filestatus.size() ; test ++)
-//			{		if(filestatus.get(test).split("/").length == 8) {
-//				System.out.println(filestatus.get(test));
-//				System.out.println((filestatus.get(test).split("/")[7]));
-//			}
-//				else{
-//				System.out.println(filestatus.get(test));
-//				System.out.println((filestatus.get(test).split("/")[6]));
-//			}
-//			}
-//			Threads.sleep(10000);
             for (int i = 0; i < filestatus.size(); i++) {//按城市遍历
-                String tablename = "city_";
-                //File f = GetFileStatus.Save_smb(filestatus.get(i), tmpfilepath);
-                //String tablename = "city_"+(cityNumObject.getString(((f.getName()).split("\\."))[0]));
-                //logger.info("城市名:"+((f.getName()).split("\\."))[0]);
-                //logger.info("表名:"+cityNumObject.getString(((f.getName()).split("\\."))[0]));
+
                 if(filestatus.get(i).split("/").length == 8) {
-                    tablename = tablename + (cityNumObject.getString((filestatus.get(i).split("/")[7]).split("\\.")[0]));
                     logger.info("城市名:" + ((filestatus.get(i).split("/"))[7]).split("\\.")[0]);
-                    logger.info("表名:" + tablename);
+                    logger.info("表名:" + TableName);
                 }
                 else
                 {
-                    tablename = tablename + (cityNumObject.getString((filestatus.get(i).split("/")[6]).split("\\.")[0]));
                     logger.info("城市名:" + ((filestatus.get(i).split("/"))[6]).split("\\.")[0]);
-                    logger.info("表名:" + tablename);
+                    logger.info("表名:" + TableName);
                 }
                 try {
                     SmbFile remotefs = new SmbFile(filestatus.get(i));
                     inputjson = Read.read_jsonFile(remotefs,"utf-8");
                     stornum += inputjson.size() ;
-                    HbaseOperation.create(tablename,columnFamily);
-                    HTable cityTable = new HTable(cfg,tablename);
+                    HbaseOperation.create(TableName,columnFamily);
+                    HTable cityTable = new HTable(cfg,TableName);
                     ArrayList<Put> putDateList = new ArrayList<Put>();
                     for(int rownum = 0 ; rownum < inputjson.size() ; rownum ++)//按行数遍历
                     {
-                        HashMap<String,String> array = getJsonData(inputjson.getJSONObject(rownum));
-                        String UserID = getUserID(array.get("user"));
-                        String WeiboID = array.get("idstr");
-                        String rowname = dateplus(start,iter) + "_" + UserID + "_" + WeiboID;
-                        Put p1 = new Put(Bytes.toBytes(rowname));
+                        HbaseCeller hbaseCeller = new HbaseCeller(inputjson.getJSONObject(rownum));
+                        Put p1;
                         //插入流写入
-                        p1 = HbaseOperation.put(tablename, rowname, columnFamily, array);
+                       p1 = HbaseOperation.put( hbaseCeller, columnFamily);
+
                         putDateList.add(p1);
                         if (putDateList.size() > 1000){
                             cityTable.put(putDateList);
@@ -136,19 +117,12 @@ public class HbaseImporter {
                     cityTable.flushCommits();
                     putDateList.clear();
                     logger.info("结尾处进行一次写入");
-                    inputjson = null ;
                     cityTable.close();
-
                 }
-
                 catch (Exception e) {
                     e.printStackTrace();
-
                 }
-
             }
-
-
             //完成一天的写入
             String times = Integer.toString(iter);
             long end_oneday_time = new Date().getTime();
@@ -160,7 +134,6 @@ public class HbaseImporter {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
-            stornum = 0;
             //开始压缩作业
             logger.info("start to zip the file");
             createSmbZip(smbstring,smbzipstring);

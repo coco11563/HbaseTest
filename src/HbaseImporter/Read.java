@@ -1,6 +1,6 @@
 package HbaseImporter;
 
-import HbaseImporter.TestAndOld.HbaseImporter;
+
 import jcifs.smb.SmbFile;
 import jcifs.smb.SmbFileInputStream;
 import net.sf.json.JSONArray;

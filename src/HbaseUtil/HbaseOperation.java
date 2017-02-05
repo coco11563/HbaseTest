@@ -1,6 +1,6 @@
 package HbaseUtil;
 
-import HbaseImporter.HbaseImporter;
+import HbaseImporter.HbaseCeller;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.HBaseConfiguration;
 import org.apache.hadoop.hbase.HColumnDescriptor;
@@ -87,7 +87,6 @@ public class HbaseOperation {
      * @return put
      * @throws Exception
      */
-    @SuppressWarnings("deprecation")
     public static Put put(String tablename, String row,String columnFamily,HashMap<String,String> array )
             throws Exception {
         Put p1 = new Put(Bytes.toBytes(row));
@@ -97,16 +96,23 @@ public class HbaseOperation {
             String key = it.next();
             if(array.get(key) != null)
             {
-                p1.add(Bytes.toBytes(columnFamily), Bytes.toBytes(key), Bytes.toBytes(array.get(key)));
+                p1.addColumn(Bytes.toBytes(columnFamily), Bytes.toBytes(key), Bytes.toBytes(array.get(key)));
             }
             else
             {
                 logger.info("好險，避免了一次空指針");
             }
         }
-
         return p1;
-
+    }
+    public static Put put(HbaseCeller hbaseCeller, String columnFamily){
+        Put p1 = new Put(Bytes.toBytes(hbaseCeller.getRowKey().toString()));
+        p1.addColumn(Bytes.toBytes(columnFamily), Bytes.toBytes("otherInform"), Bytes.toBytes(hbaseCeller.getOtherInform().getOtherInform()));
+        p1.addColumn(Bytes.toBytes(columnFamily), Bytes.toBytes("gender"), Bytes.toBytes(hbaseCeller.getOtherInform().getGender()));
+        p1.addColumn(Bytes.toBytes(columnFamily), Bytes.toBytes("picURL"), Bytes.toBytes(hbaseCeller.getOtherInform().getPicURL()));
+        p1.addColumn(Bytes.toBytes(columnFamily), Bytes.toBytes("content"), Bytes.toBytes(hbaseCeller.getOtherInform().getContent()));
+        p1.addColumn(Bytes.toBytes(columnFamily), Bytes.toBytes("username"), Bytes.toBytes(hbaseCeller.getOtherInform().getUsername()));
+        return p1;
     }
 
     public static void get(String tablename, String row) throws IOException {

@@ -13,7 +13,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import HbaseImporter.Read;
-import HbaseImporter.TestAndOld.HbaseImporter;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.apache.log4j.Logger;
@@ -22,8 +21,8 @@ import jcifs.smb.*;
 
 import static HbaseImporter.ConfigurePart.Inial.getJsonData;
 
-public class GeiFileStatus {
-    private static Logger logger = Logger.getLogger(HbaseImporter.class);
+public class GetFileStatus {
+    private static Logger logger = Logger.getLogger(GetFileStatus.class);
     private final static String tmpfilepath = "./tmp";
     private final static String cityNumPath="./conf/cityNum.json";
     /*public static Date dateplus(Date d)
@@ -47,7 +46,7 @@ public class GeiFileStatus {
         List<String> list = showAllFiles(fs);
         File fs1 = Save_smb(list.get(1),tmpfilepath);
         logger.info((fs1.getName()).split("\\.")[0]);
-        JSONObject timesetting = JSONObject.fromObject(Read.readJson("D:\\库\\文档\\eclipse workspace\\HbaseTest\\conf\\timeSetting.json"));
+        JSONObject timesetting = JSONObject.fromObject(Read.readJson("./conf/timeSetting.json"));
         //获取本次起止时间
         SimpleDateFormat df = new SimpleDateFormat("yyyy-mm-dd");
         Date start = df.parse("2016-03-07");

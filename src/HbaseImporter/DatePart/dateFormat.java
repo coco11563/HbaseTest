@@ -10,7 +10,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import static chapter12.SinaJsonRead.getJsonData;
+import static HbaseImporter.ConfigurePart.Inial.getJsonData;
 
 /**
  * Created by root on 1/17/17.
