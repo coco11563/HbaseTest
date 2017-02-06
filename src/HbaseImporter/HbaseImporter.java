@@ -53,7 +53,7 @@ public class HbaseImporter {
         Calendar cal = Calendar.getInstance();
         cal.setTime(d);
         cal.add(Calendar.DATE, m);
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-mm-dd");
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         String returntype = df.format((cal.getTime()));
         return returntype;
     }
@@ -65,7 +65,7 @@ public class HbaseImporter {
         JSONObject cityNumObject = JSONObject.fromObject(Read.readJson(cityNumPath));
         JSONObject timesetting = JSONObject.fromObject(Read.readJson(timesetpath));
         //参数初始化
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-mm-dd");
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         Date start = df.parse(timesetting.getString("start-time"));
         Date end =  df.parse(timesetting.getString("end-time"));
         int days = (int)((end.getTime() - start.getTime())/86400000) + 1;
@@ -79,6 +79,7 @@ public class HbaseImporter {
             String smbstring = "smb://biggrab:123456@192.168.1.111/biggrab/export/"+dateplus(start,iter)+"/";
             String smbzipstring = "smb://biggrab:123456@192.168.1.111/biggrab/export/"+dateplus(start,iter)+".zip";
             SmbFile fs = new SmbFile(smbstring);
+            System.out.println(smbstring);
             List<String> filestatus = showAllFiles(fs);
             for (int i = 0; i < filestatus.size(); i++) {//按城市遍历
 

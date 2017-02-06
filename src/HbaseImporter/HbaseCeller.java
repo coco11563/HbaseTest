@@ -30,11 +30,11 @@ public class HbaseCeller {
         this.otherInform = new OtherInform(jsonObject);
     }
 
-    public HbaseImporter.HolidayPart.CellerInnerClass.rowKey getRowKey() {
+    public rowKey getRowKey() {
         return rowKey;
     }
 
-    public void setRowKey(HbaseImporter.HolidayPart.CellerInnerClass.rowKey rowKey) {
+    public void setRowKey(rowKey rowKey) {
         this.rowKey = rowKey;
     }
 

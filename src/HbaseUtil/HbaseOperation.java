@@ -5,6 +5,7 @@ import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.HBaseConfiguration;
 import org.apache.hadoop.hbase.HColumnDescriptor;
 import org.apache.hadoop.hbase.HTableDescriptor;
+import org.apache.hadoop.hbase.TableName;
 import org.apache.hadoop.hbase.client.*;
 import org.apache.hadoop.hbase.util.Bytes;
 import org.apache.log4j.Logger;
@@ -149,5 +150,16 @@ public class HbaseOperation {
 
         }
         return true;
+    }
+
+    public static void main(String args[]) throws IOException {
+        HBaseAdmin admin = new HBaseAdmin(cfg);
+        TableName[] tableNames = admin.listTableNames("^city_.*");
+        for (TableName tableName : tableNames) {
+            System.out.println(tableName.getNameAsString());
+            admin.disableTable(tableName);
+            admin.deleteTable(tableName);
+        }
+        admin.close();
     }
 }
