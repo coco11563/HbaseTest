@@ -55,7 +55,7 @@ public class ZipUtils {
 	        try {
 				if(smbFile.exists()){
 				    if(smbFile.isDirectory()){//处理文件夹
-				        parentPath+=smbFile.getName()+File.separator;
+				        parentPath+=smbFile.getName();
 				        SmbFile[] smbfiles=smbFile.listFiles();
 				        for(SmbFile f:smbfiles){
 				            writeSmbZip(f, parentPath, zos);
@@ -66,7 +66,8 @@ public class ZipUtils {
 				        try {
 				            fis=new SmbFileInputStream(smbFile);
 				            dis=new DataInputStream(new BufferedInputStream(fis));
-				            ZipEntry ze = new ZipEntry(parentPath + smbFile.getName());
+				            ZipEntry ze = new ZipEntry(filter(parentPath + smbFile.getName()));
+							System.out.println(parentPath + smbFile.getName());
 				            zos.putNextEntry(ze);
 				            byte [] content=new byte[1024];
 				            int len;
@@ -127,7 +128,7 @@ public class ZipUtils {
 	                try {
 	                    fis=new FileInputStream(file);
 	                    dis=new DataInputStream(new BufferedInputStream(fis));
-	                    ZipEntry ze = new ZipEntry(parentPath + file.getName());
+	                    ZipEntry ze = new ZipEntry(filter(parentPath + file.getName()));
 	                    zos.putNextEntry(ze);
 	                    byte [] content=new byte[1024];
 	                    int len;
@@ -153,11 +154,13 @@ public class ZipUtils {
 	        }
 	    }  
 	    public static void main(String[] args) throws MalformedURLException, FileNotFoundException, SmbException, UnknownHostException {
-	        ZipUtils.createSmbZip("smb://biggrab:123456@192.168.1.111/biggrab/export/2016-03-06/澳门特别行政区/","smb://biggrab:123456@192.168.1.111/biggrab/export/2016-03-06/test.zip");
-	        
-	         
+//	        ZipUtils.createSmbZip("smb://biggrab:123456@192.168.1.111/biggrab/export/2016-03-06/澳门特别行政区/","smb://biggrab:123456@192.168.1.111/biggrab/export/2016-03-06/test.zip");
+	    	System.out.println(filter("2014-11-22/\\Exception/\\Exception.json"));
 	    }
-	
+		public static String filter(String str) {
+			String ret = str.replaceAll("\\\\", "");
+			return ret;
+		}
 	 
 
 }

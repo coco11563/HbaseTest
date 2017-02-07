@@ -80,34 +80,35 @@ public class HbaseImporter {
             String smbzipstring = "smb://biggrab:123456@192.168.1.111/biggrab/export/"+dateplus(start,iter)+".zip";
             SmbFile fs = new SmbFile(smbstring);
             System.out.println(smbstring);
+            if (!fs.exists()) {
+                continue;
+            }
             List<String> filestatus = showAllFiles(fs);
-            for (int i = 0; i < filestatus.size(); i++) {//按城市遍历
+            for (String filestatu : filestatus) {//按城市遍历
 
-                if(filestatus.get(i).split("/").length == 8) {
-                    logger.info("城市名:" + ((filestatus.get(i).split("/"))[7]).split("\\.")[0]);
+                if (filestatu.split("/").length == 8) {
+                    logger.info("城市名:" + ((filestatu.split("/"))[7]).split("\\.")[0]);
                     logger.info("表名:" + TableName);
-                }
-                else
-                {
-                    logger.info("城市名:" + ((filestatus.get(i).split("/"))[6]).split("\\.")[0]);
+                } else {
+                    logger.info("城市名:" + ((filestatu.split("/"))[6]).split("\\.")[0]);
                     logger.info("表名:" + TableName);
                 }
                 try {
-                    SmbFile remotefs = new SmbFile(filestatus.get(i));
-                    inputjson = Read.read_jsonFile(remotefs,"utf-8");
-                    stornum += inputjson.size() ;
-                    HbaseOperation.create(TableName,columnFamily);
-                    HTable cityTable = new HTable(cfg,TableName);
+                    SmbFile remotefs = new SmbFile(filestatu);
+                    inputjson = Read.read_jsonFile(remotefs, "utf-8");
+                    stornum += inputjson.size();
+                    HbaseOperation.create(TableName, columnFamily);
+                    HTable cityTable = new HTable(cfg, TableName);
                     ArrayList<Put> putDateList = new ArrayList<Put>();
-                    for(int rownum = 0 ; rownum < inputjson.size() ; rownum ++)//按行数遍历
+                    for (int rownum = 0; rownum < inputjson.size(); rownum++)//按行数遍历
                     {
                         HbaseCeller hbaseCeller = new HbaseCeller(inputjson.getJSONObject(rownum));
                         Put p1;
                         //插入流写入
-                       p1 = HbaseOperation.put( hbaseCeller, columnFamily);
+                        p1 = HbaseOperation.put(hbaseCeller, columnFamily);
 
                         putDateList.add(p1);
-                        if (putDateList.size() > 1000){
+                        if (putDateList.size() > 1000) {
                             cityTable.put(putDateList);
                             cityTable.flushCommits();
                             putDateList.clear();
@@ -119,8 +120,7 @@ public class HbaseImporter {
                     putDateList.clear();
                     logger.info("结尾处进行一次写入");
                     cityTable.close();
-                }
-                catch (Exception e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }

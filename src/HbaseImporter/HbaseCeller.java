@@ -56,7 +56,11 @@ public class HbaseCeller {
         OtherInform(String json) {
             setOtherInform(json);
             JSONObject jsonObject = JSONObject.fromObject(json);
-            setPicURL(jsonObject.getString("bmiddle_pic"));
+            if(jsonObject.containsKey("bmiddle_pic")) {
+                setPicURL(jsonObject.getString("bmiddle_pic"));
+            } else {
+                setPicURL("0");
+            }
             setGender(jsonObject.getJSONObject("user").getString("gender"));
             setUsername(jsonObject.getJSONObject("user").getString("name"));
             setContent(jsonObject.getString("text"));
