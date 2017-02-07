@@ -17,6 +17,13 @@
     <file url="file://$PROJECT_DIR$/conf/yarn-site.xml" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/lib/ant.jar" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/lib/json-lib-2.4-jdk15.jar" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/GeoIndex/datastruct" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/GeoIndex/main" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/GeoIndex/method" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/GeoIndex/method/WGSTOGCJ02.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/GeoIndex/method/getCityName.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/GeoIndex/module" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/GeoIndex/module/point.java" charset="GBK" />
     <file url="file://$PROJECT_DIR$/src/HbaseImporter/ConfigurePart/Inial.java" charset="GBK" />
     <file url="file://$PROJECT_DIR$/src/HbaseImporter/GeoHashPart/GeoHash.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/HbaseImporter/GeoHashPart/Location.java" charset="UTF-8" />

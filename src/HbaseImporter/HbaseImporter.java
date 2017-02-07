@@ -26,8 +26,6 @@ import static HbaseImporter.ZipPart.ZipUtils.createSmbZip;
 import static HbaseUtil.HbaseOperation.columnFamily;
 
 public class HbaseImporter {
-    //static变量初始化
-    private final static String tmpfilepath = "./tmp";
     private final static String cityNumPath = "./conf/cityNum.json";
     private final static String timesetpath = "./conf/timeSetting.json";
     private final static String completeddate = "./conf/CompletedDate.json";

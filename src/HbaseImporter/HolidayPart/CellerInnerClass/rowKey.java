@@ -1,5 +1,6 @@
 package HbaseImporter.HolidayPart.CellerInnerClass;
 
+import GeoIndex.datastruct.KeySizeException;
 import HbaseImporter.ConfigurePart.Inial;
 import HbaseImporter.DatePart.dateFormat;
 import HbaseImporter.GeoHashPart.GeoHash;
@@ -10,6 +11,8 @@ import org.apache.avro.data.Json;
 import org.apache.log4j.Logger;
 
 import java.text.ParseException;
+
+import static GeoIndex.main.CityGetter.getCity;
 import static HbaseImporter.HolidayPart.ChineseHoliday.getHoliday;
 
 /**
@@ -28,7 +31,9 @@ public class rowKey {
     private String month;
     private String day;
     private int isHoliday;
-    public rowKey(JSONObject weiboInform, Inial inial) throws JSONException, ParseException {
+    public rowKey(JSONObject weiboInform, Inial inial) throws JSONException, ParseException, KeySizeException {
+        double lat = weiboInform.getJSONObject("geo").getJSONArray("coordinates").getDouble(0);
+        double lng = weiboInform.getJSONObject("geo").getJSONArray("coordinates").getDouble(1);
         JSONArray url_object = weiboInform.getJSONArray("url_objects");
         if (url_object != null) {
             JSONObject object_1 = getObject_1(url_object);
@@ -50,12 +55,12 @@ public class rowKey {
                 logger.error(weiboInform.toString());
             }
         } else {
-            logger.error(weiboInform.toString());
+            String[] cityInform = getCity(lat, lng) ;
+            this.country_id = "00";
+            this.province_id = inial.getProvince_id(cityInform[0]);
+            this.city_id = inial.getCity_id(cityInform[1]);
+            logger.error(country_id + "_" + province_id + "_" + city_id);
         }
-
-
-        double lat = weiboInform.getJSONObject("geo").getJSONArray("coordinates").getDouble(0);
-        double lng = weiboInform.getJSONObject("geo").getJSONArray("coordinates").getDouble(1);
         this.geo_Hash = new GeoHash(lat, lng).getGeoHashBase32();
         this.user_id = weiboInform.getJSONObject("user").getString("id");
         this.weibo_id = weiboInform.getString("idstr");

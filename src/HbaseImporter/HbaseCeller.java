@@ -1,5 +1,6 @@
 package HbaseImporter;
 
+import GeoIndex.datastruct.KeySizeException;
 import HbaseImporter.ConfigurePart.Inial;
 import HbaseImporter.HolidayPart.CellerInnerClass.rowKey;
 import net.sf.json.JSONObject;
@@ -20,12 +21,12 @@ public class HbaseCeller {
     static {
         inial = new Inial();
     }
-    public HbaseCeller(JSONObject jsonObject) throws ParseException {
+    public HbaseCeller(JSONObject jsonObject) throws ParseException, KeySizeException {
         this.rowKey = new rowKey(jsonObject, inial);
         this.otherInform = new OtherInform(jsonObject.toString());
     }
 
-    public HbaseCeller(String jsonObject) throws ParseException {
+    public HbaseCeller(String jsonObject) throws ParseException, KeySizeException {
         this.rowKey = new rowKey(JSONObject.fromObject(jsonObject), inial);
         this.otherInform = new OtherInform(jsonObject);
     }
