@@ -7,7 +7,6 @@ import HbaseImporter.GeoHashPart.GeoHash;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONException;
 import net.sf.json.JSONObject;
-import org.apache.avro.data.Json;
 import org.apache.log4j.Logger;
 
 import java.text.ParseException;

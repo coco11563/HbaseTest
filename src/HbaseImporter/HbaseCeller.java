@@ -4,7 +4,6 @@ import GeoIndex.datastruct.KeySizeException;
 import HbaseImporter.ConfigurePart.Inial;
 import HbaseImporter.HolidayPart.CellerInnerClass.rowKey;
 import net.sf.json.JSONObject;
-import org.apache.hadoop.hbase.client.HTable;
 
 import java.text.ParseException;
 
