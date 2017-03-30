@@ -1,4 +1,5 @@
 package HbaseImporter;
+import GeoIndex.datastruct.KeySizeException;
 import HbaseUtil.HbaseOperation;
 import jcifs.smb.SmbFile;
 import net.sf.json.JSONArray;
@@ -21,6 +22,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import static GeoIndex.main.CityGetter.getCity;
+import static GeoIndex.main.CityGetter.inial;
 import static HbaseImporter.ZipPart.GetFileStatus.showAllFiles;
 import static HbaseImporter.ZipPart.ZipUtils.createSmbZip;
 import static HbaseUtil.HbaseOperation.columnFamily;
@@ -56,9 +59,9 @@ public class HbaseImporter {
         return returntype;
     }
     @SuppressWarnings("deprecation")
-    public static void main(String[] agrs) throws JSONException, ParseException, IOException
-    {
-
+    public static void main(String[] agrs) throws JSONException, ParseException, IOException, KeySizeException {
+        inial();
+        logger.debug("完成初始化KNN网络");
         // 获取城市的ID JSON文件
         JSONObject cityNumObject = JSONObject.fromObject(Read.readJson(cityNumPath));
         JSONObject timesetting = JSONObject.fromObject(Read.readJson(timesetpath));
@@ -67,7 +70,7 @@ public class HbaseImporter {
         Date start = df.parse(timesetting.getString("start-time"));
         Date end =  df.parse(timesetting.getString("end-time"));
         int days = (int)((end.getTime() - start.getTime())/86400000) + 1;
-        logger.info("开始进行" + days+ "天的数据写入. . . ");
+        logger.debug("开始进行" + days+ "天的数据写入. . . ");
         // 开始进行hbase读写
         JSONArray inputjson = new JSONArray();
         for(int iter = 0 ; iter < days ; iter ++)//天数
@@ -85,11 +88,11 @@ public class HbaseImporter {
             for (String filestatu : filestatus) {//按城市遍历
 
                 if (filestatu.split("/").length == 8) {
-                    logger.info("城市名:" + ((filestatu.split("/"))[7]).split("\\.")[0]);
-                    logger.info("表名:" + TableName);
+                    logger.debug("城市名:" + ((filestatu.split("/"))[7]).split("\\.")[0]);
+                    logger.debug("表名:" + TableName);
                 } else {
-                    logger.info("城市名:" + ((filestatu.split("/"))[6]).split("\\.")[0]);
-                    logger.info("表名:" + TableName);
+                    logger.debug("城市名:" + ((filestatu.split("/"))[6]).split("\\.")[0]);
+                    logger.debug("表名:" + TableName);
                 }
                 try {
                     SmbFile remotefs = new SmbFile(filestatu);
@@ -110,13 +113,13 @@ public class HbaseImporter {
                             cityTable.put(putDateList);
                             cityTable.flushCommits();
                             putDateList.clear();
-                            logger.info("进行一次写入");
+                            logger.debug("进行一次写入");
                         }
                     }
                     cityTable.put(putDateList);
                     cityTable.flushCommits();
                     putDateList.clear();
-                    logger.info("结尾处进行一次写入");
+                    logger.debug("结尾处进行一次写入");
                     cityTable.close();
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -133,11 +136,11 @@ public class HbaseImporter {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
-            //开始压缩作业
-            logger.info("start to zip the file");
-            createSmbZip(smbstring,smbzipstring);
-            logger.info("zip over");
-            fs.delete();
+//            //开始压缩作业
+//            logger.info("start to zip the file");
+//            createSmbZip(smbstring,smbzipstring);
+//            logger.info("zip over");
+//            fs.delete();
         }
     }
 

@@ -13,7 +13,7 @@ public class CityGetter {
 
 	private static KDTree kdtree = new KDTree(2);
 
-	static {
+	public static void inial() {
 		LinkedList<AreaData> location = new LinkedList<AreaData>();
 		location.add(new AreaData(39, 41, 111, 118.5));// �����Ƽ�����
 		location.add(new AreaData(27.5, 32, 120.5, 122));// ����

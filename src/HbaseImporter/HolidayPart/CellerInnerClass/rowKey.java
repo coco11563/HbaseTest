@@ -45,13 +45,25 @@ public class rowKey {
                         this.city_id = inial.getCity_id(address.getString("locality"));
                         this.province_id = inial.getProvince_id(address.getString("region"));
                     } else {
-                        logger.error(weiboInform.toString());
+                        String[] cityInform = getCity(lat, lng) ;
+                        this.country_id = "00";
+                        this.province_id = inial.getProvince_id(cityInform[0]);
+                        this.city_id = inial.getCity_id(cityInform[1]);
+                        logger.error(country_id + "_" + province_id + "_" + city_id);
                     }
                 } else {
-                    logger.error(weiboInform.toString());
+                    String[] cityInform = getCity(lat, lng) ;
+                    this.country_id = "00";
+                    this.province_id = inial.getProvince_id(cityInform[0]);
+                    this.city_id = inial.getCity_id(cityInform[1]);
+                    logger.error(country_id + "_" + province_id + "_" + city_id);
                 }
             } else {
-                logger.error(weiboInform.toString());
+                String[] cityInform = getCity(lat, lng) ;
+                this.country_id = "00";
+                this.province_id = inial.getProvince_id(cityInform[0]);
+                this.city_id = inial.getCity_id(cityInform[1]);
+                logger.error(country_id + "_" + province_id + "_" + city_id);
             }
         } else {
             String[] cityInform = getCity(lat, lng) ;
