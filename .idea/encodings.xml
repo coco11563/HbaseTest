@@ -3,29 +3,20 @@
   <component name="Encoding">
     <file url="file://$PROJECT_DIR$/conf/cityNum.json" charset="GBK" />
     <file url="file://$PROJECT_DIR$/conf/core-site.xml" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/conf/core-site.xml" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/conf/country.json" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/conf/hadoop-env.sh" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/conf/hadoop-policy.xml" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/conf/hbase-env.sh" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/conf/hbase-policy.xml" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/conf/hbase-policy.xml" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/conf/hbase-site.xml" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/conf/hbase-site.xml" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/conf/hdfs-site.xml" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/conf/hdfs-site.xml" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/conf/httpfs-site.xml" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/conf/kms-acls.xml" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/conf/kms-site.xml" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/conf/log4j.properties" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/conf/log4j.properties" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/conf/mapred-env.sh" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/conf/mapred-site.xml" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/conf/mapred-site.xml" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/conf/province_data.json" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/conf/yarn-site.xml" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/lib/ChinaGeoIndex.jar" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/lib/ant.jar" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/lib/json-lib-2.4-jdk15.jar" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/GeoIndex/ChinaGeoIndex.jar" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/GeoIndex/datastruct" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/GeoIndex/main" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/GeoIndex/method" charset="UTF-8" />

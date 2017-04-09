@@ -1,5 +1,4 @@
 package HbaseImporter;
-import GeoIndex.datastruct.KeySizeException;
 import HbaseUtil.HbaseOperation;
 import jcifs.smb.SmbFile;
 import net.sf.json.JSONArray;
@@ -23,7 +22,6 @@ import java.util.Date;
 import java.util.List;
 
 
-import static GeoIndex.main.CityGetter.inial;
 import static HbaseImporter.ZipPart.GetFileStatus.showAllFiles;
 
 import static HbaseUtil.HbaseOperation.columnFamily;
@@ -59,9 +57,7 @@ public class HbaseImporter {
         return returntype;
     }
     @SuppressWarnings("deprecation")
-    public static void main(String[] agrs) throws JSONException, ParseException, IOException, KeySizeException {
-        inial();
-        logger.debug("完成初始化KNN网络");
+    public static void main(String[] agrs) throws JSONException, ParseException, IOException {
         // 获取城市的ID JSON文件
         JSONObject cityNumObject = JSONObject.fromObject(Read.readJson(cityNumPath));
         JSONObject timesetting = JSONObject.fromObject(Read.readJson(timesetpath));

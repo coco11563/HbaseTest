@@ -1,18 +1,20 @@
 package HbaseImporter.HolidayPart.CellerInnerClass;
 
-import GeoIndex.datastruct.KeySizeException;
 import HbaseImporter.ConfigurePart.Inial;
 import HbaseImporter.DatePart.dateFormat;
 import HbaseImporter.GeoHashPart.GeoHash;
+import datastruct.KDTree;
+import datastruct.KeySizeException;
+import module.TestPoint;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONException;
 import net.sf.json.JSONObject;
 import org.apache.log4j.Logger;
 
+import java.io.IOException;
 import java.text.ParseException;
-
-import static GeoIndex.main.CityGetter.getCity;
 import static HbaseImporter.HolidayPart.ChineseHoliday.getHoliday;
+import static KDTreeProvider.getTree.*;
 
 /**
  * Created by coco1 on 2017/1/27.
@@ -20,6 +22,14 @@ import static HbaseImporter.HolidayPart.ChineseHoliday.getHoliday;
  */
 public class rowKey {
     private static final Logger logger =Logger.getLogger(rowKey.class);
+    private static KDTree<TestPoint> kdTree;
+    static {
+        try {
+            kdTree = getInnerConfigNormalKDTree();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
     private String country_id;
     private String province_id;
     private String city_id;
@@ -82,6 +92,20 @@ public class rowKey {
         this.day = d.getDay();
         this.isHoliday = getHoliday(d.toDate());
     }
+
+    /**
+     *
+     * @param lat
+     * @param lng
+     * @return []
+     * @throws KeySizeException
+     */
+    private static String[] getCity(double lat, double lng) throws KeySizeException {
+        TestPoint tp = kdTree.nearest(new double[]{lat, lng});
+        String[] ret = new String[]{tp.getCity(), tp.getProvince()};
+        return ret;
+    }
+
     @Override
     public String toString() {
         return this.country_id + "_" + this.province_id + "_" + this.city_id + "_" +
@@ -105,5 +129,9 @@ public class rowKey {
 
         }
         return ret;
+    }
+
+    public static void main(String args[]) throws KeySizeException {
+        System.out.print(getCity(39.958972, 116.301934)[1]);
     }
 }

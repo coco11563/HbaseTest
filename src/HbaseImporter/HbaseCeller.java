@@ -1,8 +1,8 @@
 package HbaseImporter;
 
-import GeoIndex.datastruct.KeySizeException;
 import HbaseImporter.ConfigurePart.Inial;
 import HbaseImporter.HolidayPart.CellerInnerClass.rowKey;
+import datastruct.KeySizeException;
 import net.sf.json.JSONObject;
 
 import java.text.ParseException;

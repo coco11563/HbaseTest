@@ -1,5 +1,4 @@
 package HbaseImporter.ConfigurePart;
-import GeoIndex.datastruct.KeySizeException;
 import net.sf.json.JSONException;
 import net.sf.json.JSONObject;
 
@@ -8,7 +7,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import static GeoIndex.main.CityGetter.getCity;
 
 /**
  * Created by root on 1/13/17.
