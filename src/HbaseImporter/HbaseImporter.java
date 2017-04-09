@@ -22,10 +22,10 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import static GeoIndex.main.CityGetter.getCity;
+
 import static GeoIndex.main.CityGetter.inial;
 import static HbaseImporter.ZipPart.GetFileStatus.showAllFiles;
-import static HbaseImporter.ZipPart.ZipUtils.createSmbZip;
+
 import static HbaseUtil.HbaseOperation.columnFamily;
 
 public class HbaseImporter {
