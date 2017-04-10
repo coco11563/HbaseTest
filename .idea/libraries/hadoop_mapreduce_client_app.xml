@@ -1,0 +1,18 @@
+<component name="libraryTable">
+  <library name="hadoop-mapreduce-client-app">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/hadoop-mapreduce-client-app.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/hadoop-mapreduce-client-app-2.7.3.2.5.0.0-1245.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/hadoop-mapreduce-client-common.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/hadoop-mapreduce-client-common-2.7.3.2.5.0.0-1245.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/hadoop-mapreduce-client-core.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/hadoop-mapreduce-client-core-2.7.3.2.5.0.0-1245.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/hadoop-mapreduce-client-jobclient.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/hadoop-mapreduce-client-jobclient-2.7.3.2.5.0.0-1245.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/hadoop-mapreduce-client-shuffle.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/hadoop-mapreduce-client-shuffle-2.7.3.2.5.0.0-1245.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
