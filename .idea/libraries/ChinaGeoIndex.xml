@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="ChinaGeoIndex">
-    <CLASSES>
-      <root url="jar://$PROJECT_DIR$/src/GeoIndex/ChinaGeoIndex.jar!/" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>
