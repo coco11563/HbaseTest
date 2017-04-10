@@ -17,6 +17,7 @@ import java.util.Set;
 
 /**
  * Created by coco1 on 2017/1/27.
+ *
  */
 public class HbaseOperation {
 
@@ -153,12 +154,13 @@ public class HbaseOperation {
     }
 
     public static void main(String args[]) throws IOException {
+//        System.setProperty("")
         HBaseAdmin admin = new HBaseAdmin(cfg);
         TableName[] tableNames = admin.listTableNames("^city_.*");
         for (TableName tableName : tableNames) {
             System.out.println(tableName.getNameAsString());
-            admin.disableTable(tableName);
-            admin.deleteTable(tableName);
+//            admin.disableTable(tableName);
+//            admin.deleteTable(tableName);
         }
         admin.close();
     }

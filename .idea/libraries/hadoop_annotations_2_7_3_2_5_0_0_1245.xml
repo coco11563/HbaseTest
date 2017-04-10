@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="hadoop-annotations-2.7.3.2.5.0.0-1245">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/hadoop-annotations-2.7.3.2.5.0.0-1245.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/hadoop-auth-2.7.3.2.5.0.0-1245.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/hadoop-aws-2.7.3.2.5.0.0-1245.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/hadoop-azure-2.7.3.2.5.0.0-1245.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

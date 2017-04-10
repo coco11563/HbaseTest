@@ -19,5 +19,7 @@
     <orderEntry type="library" name="ezmorph-1.0.6" level="project" />
     <orderEntry type="library" name="hadoop-annotations-2.7.3.2.5.0.0-1245" level="project" />
     <orderEntry type="library" name="hadoop-nfs-2.7.3.2.5.0.0-1245" level="project" />
+    <orderEntry type="library" name="hadoop-mapreduce-client-app" level="project" />
+    <orderEntry type="library" name="activation" level="project" />
   </component>
 </module>
