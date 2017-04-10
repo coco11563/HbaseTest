@@ -8,9 +8,9 @@ package HbaseImporter.ZipPart.File;
 import java.io.*;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
-import org.apache.tools.zip.ZipEntry;
-import org.apache.tools.zip.ZipOutputStream;
 
 public class getCityJson {
     private static File file = new File("/Users/xgxyi06/Documents/sina/data");
